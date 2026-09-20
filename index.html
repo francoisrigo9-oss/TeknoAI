@@ -1,0 +1,172 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TeknoAI — Votre assistant intelligent</title>
+
+    <meta name="description"
+          content="TeknoAI est votre assistant intelligent personnel.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- BARRE LATERALE -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            <span>Tekno<span class="ai">AI</span></span>
+        </div>
+
+        <button class="new-chat" onclick="newChat()">
+            <span>＋</span>
+            Nouvelle conversation
+        </button>
+
+        <nav>
+            <button class="nav-btn active">
+                💬 <span>Discussions</span>
+            </button>
+
+            <button class="nav-btn">
+                🔍 <span>Recherche</span>
+            </button>
+
+            <button class="nav-btn">
+                🖼️ <span>Images</span>
+            </button>
+
+            <button class="nav-btn">
+                📁 <span>Fichiers</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button class="nav-btn">
+                ⚙️ <span>Paramètres</span>
+            </button>
+
+            <div class="user-box">
+                <div class="avatar">F</div>
+
+                <div>
+                    <strong>Utilisateur</strong>
+                    <small>Compte gratuit</small>
+                </div>
+
+                <span>•••</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                ☰
+            </button>
+
+            <div class="model">
+                <strong>TeknoAI</strong>
+                <span>● En ligne</span>
+            </div>
+
+            <button class="top-button">
+                ⚙
+            </button>
+
+        </header>
+
+
+        <!-- ZONE CHAT -->
+        <section class="chat-area" id="chatArea">
+
+            <div class="welcome" id="welcome">
+
+                <div class="big-logo">T</div>
+
+                <h1>Bonjour 👋</h1>
+
+                <h2>Je suis <span>TeknoAI</span></h2>
+
+                <p>
+                    Votre assistant intelligent pour apprendre,
+                    créer, programmer, rechercher et travailler.
+                </p>
+
+                <div class="suggestions">
+
+                    <button onclick="useSuggestion('Explique-moi ce qu’est une intelligence artificielle.')">
+                        🧠 Explique-moi l'IA
+                    </button>
+
+                    <button onclick="useSuggestion('Aide-moi à créer un site web moderne.')">
+                        💻 Créer un site web
+                    </button>
+
+                    <button onclick="useSuggestion('Donne-moi des idées pour mon projet.')">
+                        💡 Idées de projet
+                    </button>
+
+                    <button onclick="useSuggestion('Apprends-moi quelque chose de nouveau.')">
+                        📚 Apprendre
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ZONE DE SAISIE -->
+        <div class="input-container">
+
+            <div class="input-box">
+
+                <button class="attach" title="Joindre un fichier">
+                    📎
+                </button>
+
+                <textarea
+                    id="messageInput"
+                    placeholder="Écrivez votre message à TeknoAI..."
+                    rows="1"
+                    onkeydown="handleEnter(event)"
+                ></textarea>
+
+                <button class="mic" title="Microphone">
+                    🎤
+                </button>
+
+                <button class="send" onclick="sendMessage()" id="sendButton">
+                    ➤
+                </button>
+
+            </div>
+
+            <div class="input-info">
+                TeknoAI peut faire des erreurs. Vérifiez les informations importantes.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
