@@ -1,368 +1,406 @@
-let currentMode = "chat";
+/* =====================================================
+   TEKNOAI - JAVASCRIPT PRINCIPAL
+   ===================================================== */
 
-const modes = {
 
-    chat: {
-        title: "Discussion avec TeknoAI",
-        description: "Pose-moi une question.",
-        suggestions: [
-            "Présente-toi",
-            "Que peux-tu faire ?",
-            "Aide-moi à créer un projet"
-        ]
+/* ================= ELEMENTS ================= */
+
+const sections = document.querySelectorAll(".section");
+
+const navButtons = document.querySelectorAll(".nav-button");
+
+const menuButton = document.getElementById("menuButton");
+
+const navigation = document.querySelector(".navigation");
+
+const startButton = document.getElementById("startButton");
+
+const aboutButton = document.getElementById("aboutButton");
+
+const featureCards = document.querySelectorAll(".feature-card");
+
+const learningCards = document.querySelectorAll(".learning-card");
+
+const projectButtons = document.querySelectorAll(".project-button");
+
+const searchButton = document.getElementById("searchButton");
+
+const searchInput = document.getElementById("searchInput");
+
+const searchResults = document.getElementById("searchResults");
+
+
+/* ================= MODAL ================= */
+
+const modal = document.getElementById("modal");
+
+const closeModal = document.getElementById("closeModal");
+
+const modalIcon = document.getElementById("modalIcon");
+
+const modalTitle = document.getElementById("modalTitle");
+
+const modalText = document.getElementById("modalText");
+
+const modalAction = document.getElementById("modalAction");
+
+
+/* ================= DONNEES ================= */
+
+const searchData = [
+
+    {
+        title: "HTML",
+        description: "Langage utilisé pour créer la structure d'une page web.",
+        section: "apprendre"
     },
 
-    ai: {
-        title: "Explique-moi l'IA",
-        description: "Apprends l'intelligence artificielle avec TeknoAI.",
-        suggestions: [
-            "Qu'est-ce que l'intelligence artificielle ?",
-            "Explique-moi le machine learning",
-            "Quelle est la différence entre IA et robot ?"
-        ]
+    {
+        title: "CSS",
+        description: "Technologie utilisée pour créer le design d'un site web.",
+        section: "apprendre"
     },
 
-    system: {
-        title: "Créer un système",
-        description: "Décris le système ou l'application que tu veux construire.",
-        suggestions: [
-            "Créer un site de gestion d'un club",
-            "Créer une boutique en ligne",
-            "Créer une application mobile"
-        ]
+    {
+        title: "JavaScript",
+        description: "Langage permettant de rendre les pages web interactives.",
+        section: "apprendre"
     },
 
-    ideas: {
-        title: "Idées de projets",
-        description: "Trouve de nouveaux projets à développer.",
-        suggestions: [
-            "Donne-moi 10 idées de projets web",
-            "Donne-moi une idée d'application",
-            "Quel projet puis-je créer avec PHP ?"
-        ]
+    {
+        title: "PHP",
+        description: "Langage serveur permettant de créer des applications web dynamiques.",
+        section: "apprendre"
     },
 
-    learn: {
-        title: "Apprendre",
-        description: "Choisis une matière et commence ton apprentissage.",
-        suggestions: [
-            "Apprends-moi HTML",
-            "Apprends-moi PHP",
-            "Explique-moi les réseaux informatiques"
-        ]
+    {
+        title: "MySQL",
+        description: "Système de gestion de bases de données relationnelles.",
+        section: "apprendre"
     },
 
-    code: {
-        title: "Programmer",
-        description: "Écris ou corrige ton code avec TeknoAI.",
-        suggestions: [
-            "Crée une page HTML",
-            "Explique-moi JavaScript",
-            "Corrige mon code PHP"
-        ]
-    },
-
-    search: {
-        title: "Recherche",
-        description: "Pose une question pour préparer une recherche.",
-        suggestions: [
-            "Fais une recherche sur l'intelligence artificielle",
-            "Explique-moi la fibre optique",
-            "Quels sont les langages web ?"
-        ]
+    {
+        title: "Intelligence artificielle",
+        description: "Domaine informatique permettant à des systèmes d'analyser des données et de produire des résultats.",
+        section: "ia"
     }
 
-};
+];
 
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ================= NAVIGATION ================= */
 
-    setupTextarea();
+function showSection(sectionId) {
 
-    showSuggestions();
+    sections.forEach(function(section) {
+
+        section.classList.remove("active-section");
+
+    });
+
+
+    const selectedSection = document.getElementById(sectionId);
+
+    if (selectedSection) {
+
+        selectedSection.classList.add("active-section");
+
+    }
+
+
+    navButtons.forEach(function(button) {
+
+        button.classList.remove("active");
+
+        if (button.dataset.section === sectionId) {
+
+            button.classList.add("active");
+
+        }
+
+    });
+
+
+    navigation.classList.remove("show");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* ================= NAVIGATION BUTTONS ================= */
+
+navButtons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        const sectionId = button.dataset.section;
+
+        showSection(sectionId);
+
+    });
 
 });
 
 
-function openMode(mode, clickedButton = null) {
+/* ================= MENU MOBILE ================= */
 
-    currentMode = mode;
+menuButton.addEventListener("click", function() {
 
-    document.getElementById("home").classList.add("hidden");
+    navigation.classList.toggle("show");
 
-    document
-        .getElementById("chatSection")
-        .classList.remove("hidden");
+});
 
-    const data = modes[mode];
 
-    document.getElementById("modeTitle").textContent = data.title;
+/* ================= COMMENCER ================= */
 
-    document.getElementById("modeDescription").textContent =
-        data.description;
+startButton.addEventListener("click", function() {
 
-    document.querySelectorAll(".menu").forEach(button => {
-        button.classList.remove("active");
+    showSection("apprendre");
+
+});
+
+
+/* ================= DECOUVRIR ================= */
+
+aboutButton.addEventListener("click", function() {
+
+    openModal(
+        "🤖",
+        "Bienvenue sur TeknoAI",
+        "TeknoAI est ton espace pour apprendre l'informatique, développer des projets et découvrir l'intelligence artificielle."
+    );
+
+});
+
+
+/* ================= CARTES PRINCIPALES ================= */
+
+featureCards.forEach(function(card) {
+
+    card.addEventListener("click", function() {
+
+        const target = card.dataset.target;
+
+        showSection(target);
+
     });
 
-    if (clickedButton) {
-        clickedButton.classList.add("active");
-    }
-
-    showSuggestions();
-
-}
+});
 
 
-function showSuggestions() {
+/* ================= APPRENTISSAGE ================= */
 
-    const container =
-        document.getElementById("suggestions");
+learningCards.forEach(function(card) {
 
-    container.innerHTML = "";
+    card.addEventListener("click", function() {
 
-    const list = modes[currentMode].suggestions;
+        const topic = card.dataset.topic;
 
-    list.forEach(text => {
+        const descriptions = {
 
-        const button = document.createElement("button");
+            "HTML":
+                "HTML permet de créer la structure des pages web.",
 
-        button.className = "suggestion";
+            "CSS":
+                "CSS permet de créer le design, les couleurs et la mise en page.",
 
-        button.textContent = text;
+            "JavaScript":
+                "JavaScript permet d'ajouter des interactions et des fonctionnalités.",
 
-        button.onclick = () => {
+            "PHP":
+                "PHP permet de créer des applications web dynamiques côté serveur.",
 
-            document.getElementById("userInput").value = text;
+            "MySQL":
+                "MySQL permet de stocker et gérer les données d'une application.",
 
-            document.getElementById("userInput").focus();
+            "IA":
+                "L'intelligence artificielle permet de créer des systèmes capables d'analyser des données et de produire des résultats."
 
         };
 
-        container.appendChild(button);
+
+        openModal(
+            "📚",
+            topic,
+            descriptions[topic]
+        );
+
+    });
+
+});
+
+
+/* ================= PROJETS ================= */
+
+projectButtons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        openModal(
+            "🚀",
+            "Nouveau projet",
+            "Décris ton idée. TeknoAI pourra ensuite t'aider à organiser ton projet étape par étape."
+        );
+
+    });
+
+});
+
+
+/* ================= MODAL ================= */
+
+function openModal(icon, title, text) {
+
+    modalIcon.textContent = icon;
+
+    modalTitle.textContent = title;
+
+    modalText.textContent = text;
+
+    modal.classList.add("show");
+
+}
+
+
+function closeModalWindow() {
+
+    modal.classList.remove("show");
+
+}
+
+
+closeModal.addEventListener("click", closeModalWindow);
+
+
+modal.addEventListener("click", function(event) {
+
+    if (event.target === modal) {
+
+        closeModalWindow();
+
+    }
+
+});
+
+
+modalAction.addEventListener("click", function() {
+
+    closeModalWindow();
+
+});
+
+
+/* ================= RECHERCHE ================= */
+
+function performSearch() {
+
+    const query = searchInput.value.trim().toLowerCase();
+
+
+    if (query === "") {
+
+        searchResults.innerHTML = `
+            <div class="empty-result">
+                <span>🔍</span>
+                <p>Écris quelque chose pour commencer.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const results = searchData.filter(function(item) {
+
+        return (
+            item.title.toLowerCase().includes(query) ||
+            item.description.toLowerCase().includes(query)
+        );
+
+    });
+
+
+    if (results.length === 0) {
+
+        searchResults.innerHTML = `
+            <div class="empty-result">
+                <span>😕</span>
+                <p>Aucun résultat trouvé pour "${query}".</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    searchResults.innerHTML = "";
+
+
+    results.forEach(function(item) {
+
+        const result = document.createElement("div");
+
+        result.className = "feature-card";
+
+        result.innerHTML = `
+            <div class="card-icon">🔎</div>
+
+            <h3>${item.title}</h3>
+
+            <p>${item.description}</p>
+
+            <button class="card-button">
+                Ouvrir →
+            </button>
+        `;
+
+
+        result.addEventListener("click", function() {
+
+            showSection(item.section);
+
+        });
+
+
+        searchResults.appendChild(result);
 
     });
 
 }
 
 
-function addMessage(text, type) {
-
-    const messages =
-        document.getElementById("messages");
-
-    const message =
-        document.createElement("div");
-
-    message.className =
-        "message " + type;
-
-    const avatar =
-        type === "assistant" ? "T" : "👤";
-
-    const name =
-        type === "assistant" ? "TeknoAI" : "Vous";
-
-    message.innerHTML = `
-        <div class="avatar">${avatar}</div>
-
-        <div class="bubble">
-
-            <strong>${name}</strong>
-
-            <p>${escapeHTML(text)}</p>
-
-        </div>
-    `;
-
-    messages.appendChild(message);
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-}
+searchButton.addEventListener("click", performSearch);
 
 
-async function sendMessage() {
+searchInput.addEventListener("keydown", function(event) {
 
-    const input =
-        document.getElementById("userInput");
+    if (event.key === "Enter") {
 
-    const text =
-        input.value.trim();
-
-    if (!text) return;
-
-    addMessage(text, "user");
-
-    input.value = "";
-
-    input.style.height = "auto";
-
-    const button =
-        document.getElementById("sendBtn");
-
-    button.disabled = true;
-
-    addMessage("TeknoAI réfléchit...", "assistant");
-
-    const loadingMessage =
-        document.querySelector(
-            "#messages .message:last-child"
-        );
-
-    try {
-
-        const response =
-            await fetch("api.php", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    message: text,
-
-                    mode: currentMode
-
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
-
-        loadingMessage.remove();
-
-
-        if (data.success) {
-
-            addMessage(
-                data.reply,
-                "assistant"
-            );
-
-        } else {
-
-            addMessage(
-                data.error ||
-                "Une erreur est survenue.",
-                "assistant"
-            );
-
-        }
-
-    } catch (error) {
-
-        loadingMessage.remove();
-
-        addMessage(
-            "TeknoAI n'arrive pas à contacter le serveur. Vérifie que PHP fonctionne.",
-            "assistant"
-        );
-
-        console.error(error);
+        performSearch();
 
     }
 
-    button.disabled = false;
-
-}
+});
 
 
-function handleEnter(event) {
+/* ================= RACCOURCI ESC ================= */
 
-    if (
-        event.key === "Enter" &&
-        !event.shiftKey
-    ) {
+document.addEventListener("keydown", function(event) {
 
-        event.preventDefault();
+    if (event.key === "Escape") {
 
-        sendMessage();
+        closeModalWindow();
+
+        navigation.classList.remove("show");
 
     }
 
-}
+});
 
 
-function setupTextarea() {
+/* ================= MESSAGE CONSOLE ================= */
 
-    const textarea =
-        document.getElementById("userInput");
-
-    textarea.addEventListener("input", () => {
-
-        textarea.style.height = "auto";
-
-        textarea.style.height =
-            Math.min(
-                textarea.scrollHeight,
-                150
-            ) + "px";
-
-    });
-
-}
-
-
-function newChat() {
-
-    document.getElementById("messages").innerHTML = `
-
-        <div class="message assistant">
-
-            <div class="avatar">
-                T
-            </div>
-
-            <div class="bubble">
-
-                <strong>TeknoAI</strong>
-
-                <p>
-                    Nouvelle discussion créée.
-                    Que veux-tu faire ?
-                </p>
-
-            </div>
-
-        </div>
-    `;
-
-}
-
-
-function showAbout() {
-
-    document
-        .getElementById("aboutModal")
-        .classList.remove("hidden");
-
-}
-
-
-function closeAbout() {
-
-    document
-        .getElementById("aboutModal")
-        .classList.add("hidden");
-
-}
-
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-}
+console.log("TeknoAI démarré avec succès.");
