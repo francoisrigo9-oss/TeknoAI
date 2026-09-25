@@ -1,480 +1,279 @@
-```javascript
-const input = document.getElementById("messageInput");
-const chatArea = document.getElementById("chatArea");
-const welcome = document.getElementById("welcome");
+let currentMode = "chat";
+
+const modes = {
+
+    chat: {
+        title: "Discussion avec TeknoAI",
+        description: "Pose-moi une question.",
+        suggestions: [
+            "Présente-toi",
+            "Que peux-tu faire ?",
+            "Aide-moi à créer un projet"
+        ]
+    },
+
+    ai: {
+        title: "Explique-moi l'IA",
+        description: "Apprends l'intelligence artificielle avec TeknoAI.",
+        suggestions: [
+            "Qu'est-ce que l'intelligence artificielle ?",
+            "Explique-moi le machine learning",
+            "Quelle est la différence entre IA et robot ?"
+        ]
+    },
+
+    system: {
+        title: "Créer un système",
+        description: "Décris le système ou l'application que tu veux construire.",
+        suggestions: [
+            "Créer un site de gestion d'un club",
+            "Créer une boutique en ligne",
+            "Créer une application mobile"
+        ]
+    },
+
+    ideas: {
+        title: "Idées de projets",
+        description: "Trouve de nouveaux projets à développer.",
+        suggestions: [
+            "Donne-moi 10 idées de projets web",
+            "Donne-moi une idée d'application",
+            "Quel projet puis-je créer avec PHP ?"
+        ]
+    },
+
+    learn: {
+        title: "Apprendre",
+        description: "Choisis une matière et commence ton apprentissage.",
+        suggestions: [
+            "Apprends-moi HTML",
+            "Apprends-moi PHP",
+            "Explique-moi les réseaux informatiques"
+        ]
+    },
+
+    code: {
+        title: "Programmer",
+        description: "Écris ou corrige ton code avec TeknoAI.",
+        suggestions: [
+            "Crée une page HTML",
+            "Explique-moi JavaScript",
+            "Corrige mon code PHP"
+        ]
+    },
+
+    search: {
+        title: "Recherche",
+        description: "Pose une question pour préparer une recherche.",
+        suggestions: [
+            "Fais une recherche sur l'intelligence artificielle",
+            "Explique-moi la fibre optique",
+            "Quels sont les langages web ?"
+        ]
+    }
+
+};
 
 
-// ==========================================
-// ENVOYER UN MESSAGE
-// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+
+    setupTextarea();
+
+    showSuggestions();
+
+});
+
+
+function openMode(mode, clickedButton = null) {
+
+    currentMode = mode;
+
+    document.getElementById("home").classList.add("hidden");
+
+    document
+        .getElementById("chatSection")
+        .classList.remove("hidden");
+
+    const data = modes[mode];
+
+    document.getElementById("modeTitle").textContent = data.title;
+
+    document.getElementById("modeDescription").textContent =
+        data.description;
+
+    document.querySelectorAll(".menu").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    if (clickedButton) {
+        clickedButton.classList.add("active");
+    }
+
+    showSuggestions();
+
+}
+
+
+function showSuggestions() {
+
+    const container =
+        document.getElementById("suggestions");
+
+    container.innerHTML = "";
+
+    const list = modes[currentMode].suggestions;
+
+    list.forEach(text => {
+
+        const button = document.createElement("button");
+
+        button.className = "suggestion";
+
+        button.textContent = text;
+
+        button.onclick = () => {
+
+            document.getElementById("userInput").value = text;
+
+            document.getElementById("userInput").focus();
+
+        };
+
+        container.appendChild(button);
+
+    });
+
+}
+
+
+function addMessage(text, type) {
+
+    const messages =
+        document.getElementById("messages");
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+    const avatar =
+        type === "assistant" ? "T" : "👤";
+
+    const name =
+        type === "assistant" ? "TeknoAI" : "Vous";
+
+    message.innerHTML = `
+        <div class="avatar">${avatar}</div>
+
+        <div class="bubble">
+
+            <strong>${name}</strong>
+
+            <p>${escapeHTML(text)}</p>
+
+        </div>
+    `;
+
+    messages.appendChild(message);
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
 
 async function sendMessage() {
 
-    const message = input.value.trim();
+    const input =
+        document.getElementById("userInput");
 
-    if (!message) {
-        return;
-    }
+    const text =
+        input.value.trim();
 
-    if (welcome) {
-        welcome.style.display = "none";
-    }
+    if (!text) return;
 
-    addMessage(message, "user");
+    addMessage(text, "user");
 
     input.value = "";
 
-    showTyping();
+    input.style.height = "auto";
+
+    const button =
+        document.getElementById("sendBtn");
+
+    button.disabled = true;
+
+    addMessage("TeknoAI réfléchit...", "assistant");
+
+    const loadingMessage =
+        document.querySelector(
+            "#messages .message:last-child"
+        );
 
     try {
 
-        const response = await fetch("chat.php", {
+        const response =
+            await fetch("api.php", {
 
-            method: "POST",
+                method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            body: JSON.stringify({
+                body: JSON.stringify({
 
-                message: message,
+                    message: text,
 
-                conversation_id: 1
+                    mode: currentMode
 
-            })
+                })
 
-        });
+            });
 
-        const data = await response.json();
 
-        removeTyping();
+        const data =
+            await response.json();
+
+
+        loadingMessage.remove();
+
 
         if (data.success) {
 
             addMessage(
-                data.response,
-                "ai"
+                data.reply,
+                "assistant"
             );
 
         } else {
 
             addMessage(
-                "Désolé, une erreur est survenue.",
-                "ai"
+                data.error ||
+                "Une erreur est survenue.",
+                "assistant"
             );
+
         }
 
     } catch (error) {
 
-        removeTyping();
+        loadingMessage.remove();
 
-        /*
-         * Si le véritable serveur IA n'est pas encore connecté,
-         * TeknoAI utilise son mode local.
-         */
-
-        const response = localTeknoAI(message);
-
-        addMessage(response, "ai");
+        addMessage(
+            "TeknoAI n'arrive pas à contacter le serveur. Vérifie que PHP fonctionne.",
+            "assistant"
+        );
 
         console.error(error);
+
     }
+
+    button.disabled = false;
+
 }
 
-
-// ==========================================
-// BOUTONS DE SUGGESTION
-// ==========================================
-
-function useSuggestion(text) {
-
-    if (welcome) {
-        welcome.style.display = "none";
-    }
-
-    input.value = text;
-
-    input.focus();
-
-    sendMessage();
-}
-
-
-// ==========================================
-// INTELLIGENCE LOCALE DE TEKNOAI
-// ==========================================
-
-function localTeknoAI(message) {
-
-    const text = message.toLowerCase();
-
-
-    // --------------------------------------
-    // EXPLIQUER L'IA
-    // --------------------------------------
-
-    if (
-        text.includes("intelligence artificielle") ||
-        text.includes("explique-moi l'ia") ||
-        text.includes("explique moi l'ia")
-    ) {
-
-        return `🧠 QU'EST-CE QUE L'INTELLIGENCE ARTIFICIELLE ?
-
-L'intelligence artificielle, ou IA, est une technologie qui permet à un ordinateur de réaliser des tâches qui nécessitent normalement l'intelligence humaine.
-
-Par exemple :
-
-• comprendre un texte
-• répondre à des questions
-• reconnaître des images
-• traduire des langues
-• écrire du code
-• analyser des données
-• générer des images
-• apprendre à partir de données
-
-🤖 Exemple :
-
-Quand tu écris une question à TeknoAI, ton message peut être analysé par un modèle d'intelligence artificielle afin de produire une réponse.
-
-📚 Les domaines importants de l'IA comprennent :
-
-1. Machine Learning
-2. Deep Learning
-3. Traitement du langage naturel
-4. Vision par ordinateur
-5. Robotique
-6. IA générative
-
-TeknoAI est justement conçu pour devenir ton assistant intelligent pour apprendre, créer, programmer et travailler.`;
-    }
-
-
-    // --------------------------------------
-    // CREER UN SYSTEME
-    // --------------------------------------
-
-    if (
-        text.includes("créer un système") ||
-        text.includes("creer un systeme") ||
-        text.includes("créer un site") ||
-        text.includes("creer un site")
-    ) {
-
-        return `💻 CRÉATION D'UN SYSTÈME
-
-Très bien ! Je peux t'aider à construire ton système étape par étape.
-
-Nous pouvons travailler avec :
-
-🌐 HTML
-🎨 CSS
-⚡ JavaScript
-🐘 PHP
-🗄️ MySQL
-📱 PWA
-🔐 Système de connexion
-👤 Comptes utilisateurs
-💬 Messagerie
-📊 Tableau de bord
-
-Exemples de systèmes que tu peux créer :
-
-• GestionClub
-• boutique en ligne
-• réseau social
-• application scolaire
-• système de gestion d'entreprise
-• portfolio professionnel
-• application mobile
-• plateforme d'intelligence artificielle
-
-👉 Écris simplement le système que tu veux créer.
-
-Exemple :
-
-"Je veux créer un système de gestion d'un club de football."
-
-Et TeknoAI pourra t'aider à construire les fichiers et la base de données.`;
-    }
-
-
-    // --------------------------------------
-    // IDEES DE PROJETS
-    // --------------------------------------
-
-    if (
-        text.includes("idées de projets") ||
-        text.includes("idees de projets") ||
-        text.includes("idée de projet") ||
-        text.includes("idee de projet")
-    ) {
-
-        return `💡 IDÉES DE PROJETS
-
-Voici plusieurs projets que tu peux développer :
-
-1️⃣ TeknoAI
-Une plateforme d'intelligence artificielle.
-
-2️⃣ GestionClub
-Un système complet de gestion d'un club de football.
-
-3️⃣ TeknoShop
-Une boutique en ligne pour vendre des produits.
-
-4️⃣ TeknoSchool
-Une plateforme de gestion scolaire.
-
-5️⃣ TeknoSport
-Une plateforme consacrée au football et aux statistiques.
-
-6️⃣ TeknoSocial
-Un réseau social avec publications, amis, commentaires et messages.
-
-7️⃣ TeknoAcademy
-Une plateforme pour apprendre l'informatique.
-
-8️⃣ TeknoPortfolio
-Un portfolio professionnel pour présenter tes projets.
-
-9️⃣ TeknoJob
-Une plateforme de recherche d'emploi.
-
-🔟 TeknoDrive
-Un système de stockage et partage de fichiers.
-
-👉 Si tu choisis un projet, je peux t'aider à construire son architecture, ses pages, sa base de données et son code.`;
-    }
-
-
-    // --------------------------------------
-    // APPRENDRE
-    // --------------------------------------
-
-    if (
-        text.includes("apprendre") ||
-        text.includes("cours") ||
-        text.includes("apprends")
-    ) {
-
-        return `📚 MODE APPRENTISSAGE
-
-Bienvenue dans le mode apprentissage de TeknoAI.
-
-Je peux t'aider à apprendre :
-
-💻 Programmation
-🌐 HTML / CSS
-⚡ JavaScript
-🐘 PHP
-🗄️ MySQL
-🌐 Réseaux informatiques
-📡 Réseaux mobiles
-🤖 Intelligence artificielle
-🔐 Cybersécurité
-📱 Développement mobile
-
-Nous pouvons travailler comme dans un cours :
-
-📖 1. Explication
-💡 2. Exemple
-⌨️ 3. Pratique
-📝 4. Exercice
-✅ 5. Correction
-
-Exemple :
-
-"Apprends-moi HTML depuis zéro."
-
-Je commencerai par les bases et nous progresserons étape par étape.`;
-    }
-
-
-    // --------------------------------------
-    // SALUTATION
-    // --------------------------------------
-
-    if (
-        text.includes("bonjour") ||
-        text.includes("salut") ||
-        text.includes("hello")
-    ) {
-
-        return `Bonjour 👋
-
-Je suis TeknoAI.
-
-Je peux t'aider à :
-
-🧠 apprendre
-💻 programmer
-🌐 créer des sites
-💡 trouver des idées
-📚 étudier
-🔧 construire des systèmes
-
-Que veux-tu faire aujourd'hui ?`;
-    }
-
-
-    // --------------------------------------
-    // CODE
-    // --------------------------------------
-
-    if (
-        text.includes("code") ||
-        text.includes("programmation") ||
-        text.includes("programmer")
-    ) {
-
-        return `💻 PROGRAMMATION
-
-Je peux t'aider à programmer avec :
-
-HTML
-CSS
-JavaScript
-PHP
-MySQL
-
-Tu peux me demander par exemple :
-
-"Donne-moi le code d'une page de connexion."
-
-ou
-
-"Crée-moi une base de données pour un club de football."
-
-Je pourrai ensuite construire le système étape par étape.`;
-    }
-
-
-    // --------------------------------------
-    // REPONSE GENERALE
-    // --------------------------------------
-
-    return `🤖 TeknoAI a bien reçu ton message.
-
-Pour le moment, je suis en mode démonstration.
-
-Tu peux me demander par exemple :
-
-• Explique-moi l'intelligence artificielle
-• Crée un système de gestion
-• Donne-moi des idées de projets
-• Apprends-moi PHP
-• Apprends-moi HTML
-• Aide-moi à créer une application
-• Donne-moi du code
-
-Écris simplement ce que tu veux faire.`;
-}
-
-
-// ==========================================
-// AFFICHER UN MESSAGE
-// ==========================================
-
-function addMessage(text, type) {
-
-    const message = document.createElement("div");
-
-    message.className = "message " + type;
-
-    message.innerHTML = `
-        <div class="message-content">
-            ${escapeHTML(text)}
-        </div>
-    `;
-
-    chatArea.appendChild(message);
-
-    chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-
-// ==========================================
-// INDICATEUR "TEKNOAI REFLECHIT"
-// ==========================================
-
-function showTyping() {
-
-    const typing = document.createElement("div");
-
-    typing.className = "message ai";
-
-    typing.id = "typing";
-
-    typing.innerHTML = `
-        <div class="message-content">
-            TeknoAI réfléchit... 🤔
-        </div>
-    `;
-
-    chatArea.appendChild(typing);
-
-    chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-
-function removeTyping() {
-
-    const typing = document.getElementById("typing");
-
-    if (typing) {
-        typing.remove();
-    }
-}
-
-
-// ==========================================
-// NOUVELLE CONVERSATION
-// ==========================================
-
-function newChat() {
-
-    chatArea.innerHTML = "";
-
-    const newWelcome = document.createElement("div");
-
-    newWelcome.className = "welcome";
-
-    newWelcome.innerHTML = `
-        <div class="big-logo">T</div>
-
-        <h1>Nouvelle conversation 👋</h1>
-
-        <h2>Je suis <span>TeknoAI</span></h2>
-
-        <p>
-            Que voulez-vous faire aujourd'hui ?
-        </p>
-    `;
-
-    chatArea.appendChild(newWelcome);
-
-    input.focus();
-}
-
-
-// ==========================================
-// MENU MOBILE
-// ==========================================
-
-function toggleSidebar() {
-
-    document
-        .querySelector(".sidebar")
-        .classList.toggle("open");
-}
-
-
-// ==========================================
-// TOUCHE ENTREE
-// ==========================================
 
 function handleEnter(event) {
 
@@ -486,20 +285,84 @@ function handleEnter(event) {
         event.preventDefault();
 
         sendMessage();
+
     }
+
 }
 
 
-// ==========================================
-// SECURITE HTML
-// ==========================================
+function setupTextarea() {
+
+    const textarea =
+        document.getElementById("userInput");
+
+    textarea.addEventListener("input", () => {
+
+        textarea.style.height = "auto";
+
+        textarea.style.height =
+            Math.min(
+                textarea.scrollHeight,
+                150
+            ) + "px";
+
+    });
+
+}
+
+
+function newChat() {
+
+    document.getElementById("messages").innerHTML = `
+
+        <div class="message assistant">
+
+            <div class="avatar">
+                T
+            </div>
+
+            <div class="bubble">
+
+                <strong>TeknoAI</strong>
+
+                <p>
+                    Nouvelle discussion créée.
+                    Que veux-tu faire ?
+                </p>
+
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+function showAbout() {
+
+    document
+        .getElementById("aboutModal")
+        .classList.remove("hidden");
+
+}
+
+
+function closeAbout() {
+
+    document
+        .getElementById("aboutModal")
+        .classList.add("hidden");
+
+}
+
 
 function escapeHTML(text) {
 
-    const div = document.createElement("div");
+    const div =
+        document.createElement("div");
 
     div.textContent = text;
 
     return div.innerHTML;
+
 }
-```
