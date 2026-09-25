@@ -4,285 +4,591 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TeknoAI - Assistant intelligent</title>
-
-    <meta name="description"
-          content="TeknoAI - Assistant intelligent pour apprendre, programmer, créer et rechercher.">
+    <title>TeknoAI</title>
+    <meta name="description" content="TeknoAI - Apprendre, créer, programmer et rechercher avec l'intelligence artificielle.">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <!-- ================= HEADER ================= -->
+    <header class="header">
 
         <div class="logo">
             <div class="logo-icon">T</div>
-            <div>
-                <strong>TeknoAI</strong>
-                <small>Assistant intelligent</small>
-            </div>
+            <span>Tekno<span>AI</span></span>
         </div>
 
-        <button class="new-chat" onclick="newChat()">
-            ＋ Nouvelle discussion
-        </button>
-
-        <nav>
-
-            <button class="menu active" onclick="openMode('chat', this)">
-                💬 <span>Discussion</span>
+        <nav class="navigation">
+            <button class="nav-button active" data-section="accueil">
+                Accueil
             </button>
 
-            <button class="menu" onclick="openMode('ai', this)">
-                🧠 <span>Explique-moi l'IA</span>
+            <button class="nav-button" data-section="apprendre">
+                Apprendre
             </button>
 
-            <button class="menu" onclick="openMode('system', this)">
-                ⚙️ <span>Créer un système</span>
+            <button class="nav-button" data-section="projets">
+                Projets
             </button>
 
-            <button class="menu" onclick="openMode('ideas', this)">
-                💡 <span>Idées de projets</span>
+            <button class="nav-button" data-section="recherche">
+                Recherche
             </button>
-
-            <button class="menu" onclick="openMode('learn', this)">
-                📚 <span>Apprendre</span>
-            </button>
-
-            <button class="menu" onclick="openMode('code', this)">
-                💻 <span>Programmer</span>
-            </button>
-
-            <button class="menu" onclick="openMode('search', this)">
-                🔎 <span>Recherche</span>
-            </button>
-
         </nav>
 
-        <div class="sidebar-bottom">
+        <button class="menu-button" id="menuButton">
+            ☰
+        </button>
 
-            <button class="menu" onclick="showAbout()">
-                ℹ️ <span>À propos</span>
-            </button>
-
-        </div>
-
-    </aside>
+    </header>
 
 
-    <!-- MAIN -->
-    <main class="main">
+    <!-- ================= CONTENU PRINCIPAL ================= -->
+    <main class="main-container">
 
-        <!-- HEADER -->
-        <header class="topbar">
-
-            <div class="mobile-logo">
-                <div class="logo-icon">T</div>
-                <strong>TeknoAI</strong>
-            </div>
-
-            <div class="status">
-                <span class="online"></span>
-                TeknoAI est prêt
-            </div>
-
-        </header>
-
-
-        <!-- HOME -->
-        <section id="home" class="content">
+        <!-- ACCUEIL -->
+        <section id="accueil" class="section active-section">
 
             <div class="hero">
 
-                <div class="hero-icon">
-                    🤖
+                <div class="hero-badge">
+                    <span class="status-dot"></span>
+                    TeknoAI est prêt
                 </div>
 
-                <h1>Bonjour, je suis <span>TeknoAI</span></h1>
+                <h1>
+                    Ton espace pour
+                    <span>apprendre, créer</span>
+                    et programmer.
+                </h1>
 
-                <p>
-                    Ton assistant intelligent pour apprendre,
-                    programmer, créer et développer tes projets.
+                <p class="hero-text">
+                    Utilise TeknoAI pour comprendre l'intelligence artificielle,
+                    développer tes projets, apprendre de nouvelles compétences
+                    et trouver des solutions.
                 </p>
+
+                <div class="hero-actions">
+
+                    <button class="primary-button" id="startButton">
+                        Commencer
+                        <span>→</span>
+                    </button>
+
+                    <button class="secondary-button" id="aboutButton">
+                        Découvrir TeknoAI
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <!-- QUICK ACTIONS -->
+            <!-- CARTES PRINCIPALES -->
+            <div class="cards-grid">
 
-            <div class="cards">
+                <article class="feature-card" data-target="ia">
 
-                <button class="card" onclick="openMode('ai')">
-                    <div class="card-icon blue">🧠</div>
-                    <h3>Explique-moi l'IA</h3>
+                    <div class="card-icon">🧠</div>
+
+                    <h3>Expliquer l'IA</h3>
+
                     <p>
-                        Comprendre l'intelligence artificielle
-                        simplement.
+                        Comprends simplement l'intelligence artificielle,
+                        son fonctionnement et ses applications.
                     </p>
-                </button>
+
+                    <button class="card-button">
+                        Commencer →
+                    </button>
+
+                </article>
 
 
-                <button class="card" onclick="openMode('system')">
-                    <div class="card-icon purple">⚙️</div>
+                <article class="feature-card" data-target="systeme">
+
+                    <div class="card-icon">⚙️</div>
+
                     <h3>Créer un système</h3>
+
                     <p>
-                        Construire un site, une application
-                        ou un système informatique.
+                        Construis ton application, ton site web ou ton
+                        propre système étape par étape.
                     </p>
-                </button>
+
+                    <button class="card-button">
+                        Créer →
+                    </button>
+
+                </article>
 
 
-                <button class="card" onclick="openMode('ideas')">
-                    <div class="card-icon yellow">💡</div>
+                <article class="feature-card" data-target="idees">
+
+                    <div class="card-icon">💡</div>
+
                     <h3>Idées de projets</h3>
+
                     <p>
-                        Trouver de nouvelles idées et
-                        projets technologiques.
+                        Découvre des idées de projets informatiques
+                        que tu peux réaliser.
                     </p>
-                </button>
+
+                    <button class="card-button">
+                        Explorer →
+                    </button>
+
+                </article>
 
 
-                <button class="card" onclick="openMode('learn')">
-                    <div class="card-icon green">📚</div>
+                <article class="feature-card" data-target="apprendre">
+
+                    <div class="card-icon">📚</div>
+
                     <h3>Apprendre</h3>
+
                     <p>
-                        Apprendre le code, les réseaux,
-                        l'IA et l'informatique.
+                        Apprends HTML, CSS, JavaScript, PHP, bases de données
+                        et bien plus.
                     </p>
-                </button>
 
+                    <button class="card-button">
+                        Apprendre →
+                    </button>
 
-                <button class="card" onclick="openMode('code')">
-                    <div class="card-icon orange">💻</div>
-                    <h3>Programmer</h3>
-                    <p>
-                        Écrire, expliquer et corriger du code.
-                    </p>
-                </button>
-
-
-                <button class="card" onclick="openMode('search')">
-                    <div class="card-icon red">🔎</div>
-                    <h3>Recherche</h3>
-                    <p>
-                        Préparer une recherche et analyser
-                        une information.
-                    </p>
-                </button>
+                </article>
 
             </div>
 
         </section>
 
 
-        <!-- CHAT -->
-        <section id="chatSection" class="chat-section hidden">
+        <!-- ================= APPRENDRE ================= -->
+        <section id="apprendre" class="section">
 
-            <div class="chat-header">
+            <div class="page-header">
+
+                <span class="page-icon">📚</span>
 
                 <div>
-                    <h2 id="modeTitle">Discussion avec TeknoAI</h2>
-                    <p id="modeDescription">
-                        Pose-moi une question.
-                    </p>
-                </div>
-
-                <button onclick="newChat()" class="clear-btn">
-                    Nouvelle discussion
-                </button>
-
-            </div>
-
-
-            <div id="messages" class="messages">
-
-                <div class="message assistant">
-
-                    <div class="avatar">
-                        T
-                    </div>
-
-                    <div class="bubble">
-                        <strong>TeknoAI</strong>
-
-                        <p>
-                            Bonjour 👋 Je suis prêt.
-                            Que veux-tu faire aujourd'hui ?
-                        </p>
-                    </div>
-
+                    <h2>Apprendre</h2>
+                    <p>Développe tes compétences étape par étape.</p>
                 </div>
 
             </div>
 
 
-            <!-- SUGGESTIONS -->
+            <div class="learning-grid">
 
-            <div id="suggestions" class="suggestions"></div>
+                <button class="learning-card" data-topic="HTML">
 
+                    <span>🌐</span>
 
-            <!-- INPUT -->
+                    <div>
+                        <h3>HTML</h3>
+                        <p>Créer la structure d'un site web.</p>
+                    </div>
 
-            <div class="input-area">
-
-                <textarea
-                    id="userInput"
-                    placeholder="Écris ton message à TeknoAI..."
-                    rows="1"
-                    onkeydown="handleEnter(event)"
-                ></textarea>
-
-                <button
-                    id="sendBtn"
-                    class="send-btn"
-                    onclick="sendMessage()"
-                >
-                    ➤
                 </button>
 
-            </div>
 
-            <div class="input-info">
-                TeknoAI peut faire des erreurs. Vérifie les informations importantes.
+                <button class="learning-card" data-topic="CSS">
+
+                    <span>🎨</span>
+
+                    <div>
+                        <h3>CSS</h3>
+                        <p>Créer un design moderne.</p>
+                    </div>
+
+                </button>
+
+
+                <button class="learning-card" data-topic="JavaScript">
+
+                    <span>⚡</span>
+
+                    <div>
+                        <h3>JavaScript</h3>
+                        <p>Rendre ton application interactive.</p>
+                    </div>
+
+                </button>
+
+
+                <button class="learning-card" data-topic="PHP">
+
+                    <span>🐘</span>
+
+                    <div>
+                        <h3>PHP</h3>
+                        <p>Créer des applications dynamiques.</p>
+                    </div>
+
+                </button>
+
+
+                <button class="learning-card" data-topic="MySQL">
+
+                    <span>🗄️</span>
+
+                    <div>
+                        <h3>MySQL</h3>
+                        <p>Gérer les bases de données.</p>
+                    </div>
+
+                </button>
+
+
+                <button class="learning-card" data-topic="IA">
+
+                    <span>🤖</span>
+
+                    <div>
+                        <h3>Intelligence artificielle</h3>
+                        <p>Découvrir les bases de l'IA.</p>
+                    </div>
+
+                </button>
+
             </div>
 
         </section>
 
 
-        <!-- ABOUT -->
+        <!-- ================= PROJETS ================= -->
+        <section id="projets" class="section">
 
-        <div id="aboutModal" class="modal hidden">
+            <div class="page-header">
 
-            <div class="modal-box">
+                <span class="page-icon">🚀</span>
 
-                <button class="close" onclick="closeAbout()">×</button>
-
-                <div class="big-logo">T</div>
-
-                <h2>TeknoAI</h2>
-
-                <p>
-                    Assistant intelligent créé pour apprendre,
-                    programmer, rechercher et développer des projets.
-                </p>
-
-                <p class="version">
-                    Version 1.0
-                </p>
+                <div>
+                    <h2>Projets</h2>
+                    <p>Transforme tes idées en projets réels.</p>
+                </div>
 
             </div>
 
-        </div>
+
+            <div class="project-grid">
+
+                <article class="project-card">
+
+                    <div class="project-number">01</div>
+
+                    <h3>Site web professionnel</h3>
+
+                    <p>
+                        Crée ton portfolio ou ton site professionnel
+                        avec HTML, CSS et JavaScript.
+                    </p>
+
+                    <button class="project-button">
+                        Commencer
+                    </button>
+
+                </article>
+
+
+                <article class="project-card">
+
+                    <div class="project-number">02</div>
+
+                    <h3>Application mobile</h3>
+
+                    <p>
+                        Transforme ton projet web en application
+                        utilisable sur téléphone.
+                    </p>
+
+                    <button class="project-button">
+                        Commencer
+                    </button>
+
+                </article>
+
+
+                <article class="project-card">
+
+                    <div class="project-number">03</div>
+
+                    <h3>Système de gestion</h3>
+
+                    <p>
+                        Crée un système complet avec connexion,
+                        utilisateurs et base de données.
+                    </p>
+
+                    <button class="project-button">
+                        Commencer
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECHERCHE ================= -->
+        <section id="recherche" class="section">
+
+            <div class="page-header">
+
+                <span class="page-icon">🔎</span>
+
+                <div>
+                    <h2>Recherche</h2>
+                    <p>Recherche dans les ressources de TeknoAI.</p>
+                </div>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Rechercher HTML, JavaScript, IA..."
+                >
+
+                <button id="searchButton">
+                    Rechercher
+                </button>
+
+            </div>
+
+
+            <div id="searchResults" class="search-results">
+
+                <div class="empty-result">
+                    <span>🔍</span>
+                    <p>Écris quelque chose pour commencer.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= IA ================= -->
+        <section id="ia" class="section">
+
+            <div class="page-header">
+
+                <span class="page-icon">🧠</span>
+
+                <div>
+                    <h2>Comprendre l'intelligence artificielle</h2>
+                    <p>Une introduction simple à l'IA.</p>
+                </div>
+
+            </div>
+
+
+            <div class="content-box">
+
+                <h3>Qu'est-ce que l'intelligence artificielle ?</h3>
+
+                <p>
+                    L'intelligence artificielle est un domaine de
+                    l'informatique qui permet à des systèmes de réaliser
+                    certaines tâches nécessitant normalement des capacités
+                    humaines, comme analyser des informations, reconnaître
+                    des modèles ou générer du contenu.
+                </p>
+
+                <div class="info-grid">
+
+                    <div>
+                        <strong>01</strong>
+                        <span>Données</span>
+                    </div>
+
+                    <div>
+                        <strong>02</strong>
+                        <span>Modèle</span>
+                    </div>
+
+                    <div>
+                        <strong>03</strong>
+                        <span>Apprentissage</span>
+                    </div>
+
+                    <div>
+                        <strong>04</strong>
+                        <span>Résultat</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CREER UN SYSTEME ================= -->
+        <section id="systeme" class="section">
+
+            <div class="page-header">
+
+                <span class="page-icon">⚙️</span>
+
+                <div>
+                    <h2>Créer un système</h2>
+                    <p>Construis ton application étape par étape.</p>
+                </div>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+                    <span>1</span>
+                    <div>
+                        <h3>Définir l'idée</h3>
+                        <p>Décris clairement ce que ton système doit faire.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span>2</span>
+                    <div>
+                        <h3>Créer l'interface</h3>
+                        <p>Construis les pages avec HTML et CSS.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span>3</span>
+                    <div>
+                        <h3>Ajouter les fonctions</h3>
+                        <p>Utilise JavaScript pour rendre ton système interactif.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span>4</span>
+                    <div>
+                        <h3>Ajouter la base de données</h3>
+                        <p>Utilise PHP et MySQL pour enregistrer les données.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= IDEES ================= -->
+        <section id="idees" class="section">
+
+            <div class="page-header">
+
+                <span class="page-icon">💡</span>
+
+                <div>
+                    <h2>Idées de projets</h2>
+                    <p>Quelques projets pour pratiquer.</p>
+                </div>
+
+            </div>
+
+
+            <div class="ideas-list">
+
+                <div class="idea">
+                    <span>⚽</span>
+                    <div>
+                        <h3>Gestion de club sportif</h3>
+                        <p>Joueurs, matchs, entraînements et statistiques.</p>
+                    </div>
+                </div>
+
+                <div class="idea">
+                    <span>🛒</span>
+                    <div>
+                        <h3>Boutique en ligne</h3>
+                        <p>Produits, recherche, panier et commandes.</p>
+                    </div>
+                </div>
+
+                <div class="idea">
+                    <span>👥</span>
+                    <div>
+                        <h3>Réseau social</h3>
+                        <p>Profils, publications, messages et notifications.</p>
+                    </div>
+                </div>
+
+                <div class="idea">
+                    <span>🤖</span>
+                    <div>
+                        <h3>Assistant IA</h3>
+                        <p>Une interface permettant d'interagir avec une IA.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
 
     </main>
 
-</div>
 
-<script src="script.js"></script>
+    <!-- ================= MODAL ================= -->
+    <div id="modal" class="modal">
+
+        <div class="modal-content">
+
+            <button id="closeModal" class="close-modal">
+                ×
+            </button>
+
+            <div id="modalIcon" class="modal-icon">
+                💡
+            </div>
+
+            <h2 id="modalTitle">TeknoAI</h2>
+
+            <p id="modalText">
+                Bienvenue sur TeknoAI.
+            </p>
+
+            <button id="modalAction" class="primary-button">
+                Continuer →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            <span>Tekno<span>AI</span></span>
+        </div>
+
+        <p>
+            Apprendre • Créer • Programmer • Innover
+        </p>
+
+        <p class="copyright">
+            © 2026 TeknoAI
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>
