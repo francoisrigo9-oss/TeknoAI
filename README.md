@@ -1,2 +1,0 @@
-# TeknoAI
-TeknoAI - développeur web 
