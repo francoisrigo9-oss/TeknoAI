@@ -1,594 +1,604 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101019">
+  <meta name="description" content="TeknoAI - Apprendre, créer et programmer avec l'intelligence artificielle.">
+  <title>TeknoAI — Apprendre et créer</title>
 
-    <title>TeknoAI</title>
-    <meta name="description" content="TeknoAI - Apprendre, créer, programmer et rechercher avec l'intelligence artificielle.">
+  <style>
+    :root {
+      --bg: #101019;
+      --panel: #191925;
+      --panel2: #222232;
+      --text: #f5f5fa;
+      --muted: #a4a4b8;
+      --accent: #a855f7;
+      --accent2: #ec4899;
+      --border: #303044;
+      --user: #392454;
+    }
 
-    <link rel="stylesheet" href="style.css">
+    body.light {
+      --bg: #f5f5fa;
+      --panel: #ffffff;
+      --panel2: #eeeef6;
+      --text: #202033;
+      --muted: #65657c;
+      --border: #dedeea;
+      --user: #eadbff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background .2s, color .2s;
+    }
+
+    button, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 22px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.7px;
+      padding: 4px 8px;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      font-size: 24px;
+    }
+
+    .brand span:last-child {
+      background: linear-gradient(90deg, #c084fc, #f472b6);
+      color: transparent;
+      background-clip: text;
+    }
+
+    .new-chat, .nav-btn, .theme-btn, .clear-btn {
+      width: 100%;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: var(--panel2);
+      padding: 12px;
+      border-radius: 11px;
+      text-align: left;
+    }
+
+    .new-chat {
+      background: linear-gradient(110deg, #9333ea, #c026d3);
+      border: 0;
+      color: white;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .section-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      font-size: 11px;
+      margin: 0 8px 10px;
+    }
+
+    .nav-list { display: grid; gap: 8px; }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      transition: .2s;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      border-color: var(--accent);
+      background: var(--user);
+    }
+
+    .nav-icon { width: 23px; text-align: center; }
+
+    .sidebar-bottom { margin-top: auto; display: grid; gap: 9px; }
+
+    .small-note {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+      padding: 4px 8px;
+    }
+
+    main { min-width: 0; display: flex; flex-direction: column; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 17px 26px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    header strong { font-size: 14px; }
+    header span { color: var(--muted); font-size: 12px; }
+
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+
+    .icon-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      width: 39px;
+      height: 39px;
+      font-size: 17px;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 920px;
+      padding: 42px 24px 25px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .welcome { text-align: center; margin: 28px 0 35px; }
+
+    .eyebrow {
+      color: #d8b4fe;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 49px);
+      line-height: 1.15;
+      letter-spacing: -1.8px;
+      margin: 15px 0;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, #c084fc, #f472b6);
+      background-clip: text;
+      color: transparent;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 530px;
+      margin: 0 auto;
+      font-size: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: left;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+    .card .emoji { font-size: 27px; }
+    .card h3 { margin: 14px 0 7px; font-size: 16px; }
+    .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .chat {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .message {
+      max-width: 88%;
+      padding: 15px 17px;
+      border-radius: 15px;
+      line-height: 1.75;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.user {
+      justify-self: end;
+      background: var(--user);
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+    }
+
+    .message.assistant {
+      justify-self: start;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+
+    .message strong { color: #c084fc; }
+    .message pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 9px;
+      overflow-x: auto;
+    }
+
+    .composer {
+      position: sticky;
+      bottom: 0;
+      padding: 15px 24px 20px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .composer-inner {
+      max-width: 850px;
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    textarea {
+      flex: 1;
+      min-width: 0;
+      resize: vertical;
+      min-height: 44px;
+      max-height: 180px;
+      padding: 12px 8px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    textarea::placeholder { color: var(--muted); }
+
+    .send {
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 17px;
+      color: white;
+      font-weight: 700;
+      background: linear-gradient(120deg, #9333ea, #db2777);
+    }
+
+    .send:disabled { opacity: .45; cursor: not-allowed; }
+
+    .disclaimer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 10px auto 0;
+      line-height: 1.5;
+      max-width: 650px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 700px) {
+      .app { grid-template-columns: 1fr; }
+      aside {
+        padding: 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        gap: 12px;
+      }
+      .brand { font-size: 20px; }
+      .new-chat { width: auto; }
+      .sidebar-top { display: flex; align-items: center; justify-content: space-between; }
+      .section-label, .sidebar-bottom { display: none; }
+      .nav-list { display: flex; overflow-x: auto; gap: 7px; }
+      .nav-btn { width: auto; white-space: nowrap; padding: 10px; font-size: 12px; }
+      .nav-icon { width: auto; }
+      header { padding: 12px 16px; }
+      .content { padding: 24px 16px; }
+      .welcome { margin: 24px 0; }
+      .cards { gap: 10px; }
+      .card { padding: 15px; }
+      .card h3 { font-size: 14px; }
+      .card p { font-size: 12px; }
+      .composer { padding: 10px 12px 14px; }
+      .message { max-width: 96%; }
+      .send { padding: 12px; }
+    }
+
+    @media (max-width: 370px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
-
-    <!-- ================= HEADER ================= -->
-    <header class="header">
-
-        <div class="logo">
-            <div class="logo-icon">T</div>
-            <span>Tekno<span>AI</span></span>
-        </div>
-
-        <nav class="navigation">
-            <button class="nav-button active" data-section="accueil">
-                Accueil
-            </button>
-
-            <button class="nav-button" data-section="apprendre">
-                Apprendre
-            </button>
-
-            <button class="nav-button" data-section="projets">
-                Projets
-            </button>
-
-            <button class="nav-button" data-section="recherche">
-                Recherche
-            </button>
-        </nav>
-
-        <button class="menu-button" id="menuButton">
-            ☰
-        </button>
-
-    </header>
-
-
-    <!-- ================= CONTENU PRINCIPAL ================= -->
-    <main class="main-container">
-
-        <!-- ACCUEIL -->
-        <section id="accueil" class="section active-section">
-
-            <div class="hero">
-
-                <div class="hero-badge">
-                    <span class="status-dot"></span>
-                    TeknoAI est prêt
-                </div>
-
-                <h1>
-                    Ton espace pour
-                    <span>apprendre, créer</span>
-                    et programmer.
-                </h1>
-
-                <p class="hero-text">
-                    Utilise TeknoAI pour comprendre l'intelligence artificielle,
-                    développer tes projets, apprendre de nouvelles compétences
-                    et trouver des solutions.
-                </p>
-
-                <div class="hero-actions">
-
-                    <button class="primary-button" id="startButton">
-                        Commencer
-                        <span>→</span>
-                    </button>
-
-                    <button class="secondary-button" id="aboutButton">
-                        Découvrir TeknoAI
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- CARTES PRINCIPALES -->
-            <div class="cards-grid">
-
-                <article class="feature-card" data-target="ia">
-
-                    <div class="card-icon">🧠</div>
-
-                    <h3>Expliquer l'IA</h3>
-
-                    <p>
-                        Comprends simplement l'intelligence artificielle,
-                        son fonctionnement et ses applications.
-                    </p>
-
-                    <button class="card-button">
-                        Commencer →
-                    </button>
-
-                </article>
-
-
-                <article class="feature-card" data-target="systeme">
-
-                    <div class="card-icon">⚙️</div>
-
-                    <h3>Créer un système</h3>
-
-                    <p>
-                        Construis ton application, ton site web ou ton
-                        propre système étape par étape.
-                    </p>
-
-                    <button class="card-button">
-                        Créer →
-                    </button>
-
-                </article>
-
-
-                <article class="feature-card" data-target="idees">
-
-                    <div class="card-icon">💡</div>
-
-                    <h3>Idées de projets</h3>
-
-                    <p>
-                        Découvre des idées de projets informatiques
-                        que tu peux réaliser.
-                    </p>
-
-                    <button class="card-button">
-                        Explorer →
-                    </button>
-
-                </article>
-
-
-                <article class="feature-card" data-target="apprendre">
-
-                    <div class="card-icon">📚</div>
-
-                    <h3>Apprendre</h3>
-
-                    <p>
-                        Apprends HTML, CSS, JavaScript, PHP, bases de données
-                        et bien plus.
-                    </p>
-
-                    <button class="card-button">
-                        Apprendre →
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= APPRENDRE ================= -->
-        <section id="apprendre" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">📚</span>
-
-                <div>
-                    <h2>Apprendre</h2>
-                    <p>Développe tes compétences étape par étape.</p>
-                </div>
-
-            </div>
-
-
-            <div class="learning-grid">
-
-                <button class="learning-card" data-topic="HTML">
-
-                    <span>🌐</span>
-
-                    <div>
-                        <h3>HTML</h3>
-                        <p>Créer la structure d'un site web.</p>
-                    </div>
-
-                </button>
-
-
-                <button class="learning-card" data-topic="CSS">
-
-                    <span>🎨</span>
-
-                    <div>
-                        <h3>CSS</h3>
-                        <p>Créer un design moderne.</p>
-                    </div>
-
-                </button>
-
-
-                <button class="learning-card" data-topic="JavaScript">
-
-                    <span>⚡</span>
-
-                    <div>
-                        <h3>JavaScript</h3>
-                        <p>Rendre ton application interactive.</p>
-                    </div>
-
-                </button>
-
-
-                <button class="learning-card" data-topic="PHP">
-
-                    <span>🐘</span>
-
-                    <div>
-                        <h3>PHP</h3>
-                        <p>Créer des applications dynamiques.</p>
-                    </div>
-
-                </button>
-
-
-                <button class="learning-card" data-topic="MySQL">
-
-                    <span>🗄️</span>
-
-                    <div>
-                        <h3>MySQL</h3>
-                        <p>Gérer les bases de données.</p>
-                    </div>
-
-                </button>
-
-
-                <button class="learning-card" data-topic="IA">
-
-                    <span>🤖</span>
-
-                    <div>
-                        <h3>Intelligence artificielle</h3>
-                        <p>Découvrir les bases de l'IA.</p>
-                    </div>
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PROJETS ================= -->
-        <section id="projets" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">🚀</span>
-
-                <div>
-                    <h2>Projets</h2>
-                    <p>Transforme tes idées en projets réels.</p>
-                </div>
-
-            </div>
-
-
-            <div class="project-grid">
-
-                <article class="project-card">
-
-                    <div class="project-number">01</div>
-
-                    <h3>Site web professionnel</h3>
-
-                    <p>
-                        Crée ton portfolio ou ton site professionnel
-                        avec HTML, CSS et JavaScript.
-                    </p>
-
-                    <button class="project-button">
-                        Commencer
-                    </button>
-
-                </article>
-
-
-                <article class="project-card">
-
-                    <div class="project-number">02</div>
-
-                    <h3>Application mobile</h3>
-
-                    <p>
-                        Transforme ton projet web en application
-                        utilisable sur téléphone.
-                    </p>
-
-                    <button class="project-button">
-                        Commencer
-                    </button>
-
-                </article>
-
-
-                <article class="project-card">
-
-                    <div class="project-number">03</div>
-
-                    <h3>Système de gestion</h3>
-
-                    <p>
-                        Crée un système complet avec connexion,
-                        utilisateurs et base de données.
-                    </p>
-
-                    <button class="project-button">
-                        Commencer
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= RECHERCHE ================= -->
-        <section id="recherche" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">🔎</span>
-
-                <div>
-                    <h2>Recherche</h2>
-                    <p>Recherche dans les ressources de TeknoAI.</p>
-                </div>
-
-            </div>
-
-
-            <div class="search-box">
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Rechercher HTML, JavaScript, IA..."
-                >
-
-                <button id="searchButton">
-                    Rechercher
-                </button>
-
-            </div>
-
-
-            <div id="searchResults" class="search-results">
-
-                <div class="empty-result">
-                    <span>🔍</span>
-                    <p>Écris quelque chose pour commencer.</p>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= IA ================= -->
-        <section id="ia" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">🧠</span>
-
-                <div>
-                    <h2>Comprendre l'intelligence artificielle</h2>
-                    <p>Une introduction simple à l'IA.</p>
-                </div>
-
-            </div>
-
-
-            <div class="content-box">
-
-                <h3>Qu'est-ce que l'intelligence artificielle ?</h3>
-
-                <p>
-                    L'intelligence artificielle est un domaine de
-                    l'informatique qui permet à des systèmes de réaliser
-                    certaines tâches nécessitant normalement des capacités
-                    humaines, comme analyser des informations, reconnaître
-                    des modèles ou générer du contenu.
-                </p>
-
-                <div class="info-grid">
-
-                    <div>
-                        <strong>01</strong>
-                        <span>Données</span>
-                    </div>
-
-                    <div>
-                        <strong>02</strong>
-                        <span>Modèle</span>
-                    </div>
-
-                    <div>
-                        <strong>03</strong>
-                        <span>Apprentissage</span>
-                    </div>
-
-                    <div>
-                        <strong>04</strong>
-                        <span>Résultat</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= CREER UN SYSTEME ================= -->
-        <section id="systeme" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">⚙️</span>
-
-                <div>
-                    <h2>Créer un système</h2>
-                    <p>Construis ton application étape par étape.</p>
-                </div>
-
-            </div>
-
-
-            <div class="steps">
-
-                <div class="step">
-                    <span>1</span>
-                    <div>
-                        <h3>Définir l'idée</h3>
-                        <p>Décris clairement ce que ton système doit faire.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <span>2</span>
-                    <div>
-                        <h3>Créer l'interface</h3>
-                        <p>Construis les pages avec HTML et CSS.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <span>3</span>
-                    <div>
-                        <h3>Ajouter les fonctions</h3>
-                        <p>Utilise JavaScript pour rendre ton système interactif.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <span>4</span>
-                    <div>
-                        <h3>Ajouter la base de données</h3>
-                        <p>Utilise PHP et MySQL pour enregistrer les données.</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= IDEES ================= -->
-        <section id="idees" class="section">
-
-            <div class="page-header">
-
-                <span class="page-icon">💡</span>
-
-                <div>
-                    <h2>Idées de projets</h2>
-                    <p>Quelques projets pour pratiquer.</p>
-                </div>
-
-            </div>
-
-
-            <div class="ideas-list">
-
-                <div class="idea">
-                    <span>⚽</span>
-                    <div>
-                        <h3>Gestion de club sportif</h3>
-                        <p>Joueurs, matchs, entraînements et statistiques.</p>
-                    </div>
-                </div>
-
-                <div class="idea">
-                    <span>🛒</span>
-                    <div>
-                        <h3>Boutique en ligne</h3>
-                        <p>Produits, recherche, panier et commandes.</p>
-                    </div>
-                </div>
-
-                <div class="idea">
-                    <span>👥</span>
-                    <div>
-                        <h3>Réseau social</h3>
-                        <p>Profils, publications, messages et notifications.</p>
-                    </div>
-                </div>
-
-                <div class="idea">
-                    <span>🤖</span>
-                    <div>
-                        <h3>Assistant IA</h3>
-                        <p>Une interface permettant d'interagir avec une IA.</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= MODAL ================= -->
-    <div id="modal" class="modal">
-
-        <div class="modal-content">
-
-            <button id="closeModal" class="close-modal">
-                ×
-            </button>
-
-            <div id="modalIcon" class="modal-icon">
-                💡
-            </div>
-
-            <h2 id="modalTitle">TeknoAI</h2>
-
-            <p id="modalText">
-                Bienvenue sur TeknoAI.
-            </p>
-
-            <button id="modalAction" class="primary-button">
-                Continuer →
-            </button>
-
-        </div>
-
+<div class="app">
+
+  <aside>
+    <div class="sidebar-top">
+      <div class="brand">
+        <div class="logo">T</div>
+        <span>TeknoAI</span>
+      </div>
+      <button class="new-chat" id="newChat">＋ Nouveau chat</button>
     </div>
 
+    <div>
+      <p class="section-label">Explorer</p>
+      <nav class="nav-list" aria-label="Navigation principale">
+        <button class="nav-btn active" data-mode="home"><span class="nav-icon">⌂</span> Accueil</button>
+        <button class="nav-btn" data-mode="explain"><span class="nav-icon">✦</span> Expliquer l'IA</button>
+        <button class="nav-btn" data-mode="create"><span class="nav-icon">⌘</span> Créer un système</button>
+        <button class="nav-btn" data-mode="ideas"><span class="nav-icon">💡</span> Idées de projets</button>
+        <button class="nav-btn" data-mode="learn"><span class="nav-icon">📚</span> Apprendre</button>
+      </nav>
+    </div>
 
-    <!-- ================= FOOTER ================= -->
-    <footer class="footer">
+    <div class="sidebar-bottom">
+      <button class="theme-btn" id="themeBtn">☀️ Changer le thème</button>
+      <button class="clear-btn" id="clearBtn">Effacer la conversation</button>
+      <div class="small-note">TeknoAI V1 · Ton espace pour apprendre et créer.</div>
+    </div>
+  </aside>
 
-        <div class="logo">
-            <div class="logo-icon">T</div>
-            <span>Tekno<span>AI</span></span>
-        </div>
+  <main>
+    <header>
+      <div>
+        <strong id="pageTitle">Assistant TeknoAI</strong><br>
+        <span>Apprendre · Créer · Programmer</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="mobileTheme" aria-label="Changer le thème">◐</button>
+      </div>
+    </header>
 
-        <p>
-            Apprendre • Créer • Programmer • Innover
-        </p>
+    <section class="content">
+      <div class="welcome" id="welcome">
+        <div class="eyebrow">Bienvenue dans ton espace</div>
+        <h1>Imagine. Apprends.<br><span class="gradient">Crée avec TeknoAI.</span></h1>
+        <p>Découvre l'intelligence artificielle, développe tes idées et commence à construire tes propres projets numériques.</p>
+      </div>
 
-        <p class="copyright">
-            © 2026 TeknoAI
-        </p>
+      <div class="cards" id="cards">
+        <button class="card" data-prompt="Explique-moi l'intelligence artificielle avec des exemples simples.">
+          <span class="emoji">🧠</span>
+          <h3>Expliquer-moi l'IA</h3>
+          <p>Comprends l'IA avec des explications simples et des exemples.</p>
+        </button>
 
-    </footer>
+        <button class="card" data-prompt="Aide-moi à créer un site web professionnel. Donne-moi les étapes et le code de départ.">
+          <span class="emoji">💻</span>
+          <h3>Créer un système</h3>
+          <p>Prépare un site web, une application ou un outil numérique.</p>
+        </button>
 
+        <button class="card" data-prompt="Donne-moi cinq idées de projets informatiques utiles que je peux réaliser en débutant.">
+          <span class="emoji">🚀</span>
+          <h3>Idées de projets</h3>
+          <p>Transforme tes idées en projets concrets.</p>
+        </button>
 
-    <script src="script.js"></script>
+        <button class="card" data-prompt="Prépare-moi un parcours pour apprendre HTML, CSS et JavaScript en partant de zéro.">
+          <span class="emoji">🎓</span>
+          <h3>Apprendre</h3>
+          <p>Progresse en programmation et en nouvelles technologies.</p>
+        </button>
+      </div>
 
+      <div class="chat" id="chat" aria-live="polite"></div>
+    </section>
+
+    <section class="composer">
+      <form class="composer-inner" id="chatForm">
+        <textarea id="prompt" rows="1" maxlength="4000"
+          placeholder="Pose ta question à TeknoAI..."
+          aria-label="Ta question"></textarea>
+        <button class="send" id="sendBtn" type="submit">Envoyer ↑</button>
+      </form>
+      <p class="disclaimer">Version de démonstration : les réponses sont préprogrammées. Une connexion à un modèle d'IA sera nécessaire pour obtenir de véritables réponses génératives.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (selector) => document.querySelector(selector);
+  const chat = $("#chat");
+  const promptInput = $("#prompt");
+  const welcome = $("#welcome");
+  const cards = $("#cards");
+  const pageTitle = $("#pageTitle");
+  const sendBtn = $("#sendBtn");
+
+  let currentMode = "home";
+
+  const titles = {
+    home: "Assistant TeknoAI",
+    explain: "Comprendre l'intelligence artificielle",
+    create: "Créer un système",
+    ideas: "Découvrir des projets",
+    learn: "Apprendre les technologies"
+  };
+
+  function addMessage(text, role) {
+    const message = document.createElement("div");
+    message.className = "message " + role;
+    // textContent empêche l'interprétation du texte saisi comme du HTML.
+    message.textContent = text;
+    chat.appendChild(message);
+    message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function answerFor(question) {
+    const q = question.toLowerCase();
+
+    if (q.includes("bonjour") || q.includes("salut") || q.includes("hello")) {
+      return "Bonjour et bienvenue sur TeknoAI ! 👋 Je peux t'aider à apprendre, programmer et préparer des projets. Que souhaites-tu réaliser aujourd'hui ?";
+    }
+
+    if (q.includes("intelligence artificielle") || q.includes("explique") || q.includes("c'est quoi l'ia") || q.includes("c est quoi l ia")) {
+      return "L'intelligence artificielle (IA) est un ensemble de technologies capables d'effectuer des tâches comme analyser des informations, reconnaître des images ou générer du texte.\n\nExemple : un assistant IA peut expliquer un cours, aider à écrire du code ou proposer des idées.\n\nÀ retenir : une IA peut aussi se tromper. Il faut vérifier les informations importantes.";
+    }
+
+    if (q.includes("site web") || q.includes("html") || q.includes("css") || q.includes("javascript") || q.includes("programmer") || q.includes("code")) {
+      return "Pour créer un site web, commence par ces trois technologies :\n\n1. HTML : structure les pages.\n2. CSS : crée le design et adapte le site aux téléphones.\n3. JavaScript : rend les boutons et les interactions fonctionnels.\n\nPremier exercice : crée un fichier index.html, ajoute un titre et un bouton, puis ouvre le fichier dans ton navigateur.\n\nJe peux t'aider à construire le projet étape par étape. Cette réponse est un guide de démonstration, pas une génération de code par un modèle d'IA.";
+    }
+
+    if (q.includes("projet") || q.includes("idée") || q.includes("idee")) {
+      return "Voici cinq idées de projets informatiques :\n\n1. Un site de portfolio professionnel.\n2. Une application de gestion d'académie de football.\n3. Une boutique en ligne.\n4. Un réseau social avec profils et publications.\n5. Un assistant IA connecté à une API.\n\nPour commencer, choisis un projet, définis ses fonctions principales, puis développe une première version simple avant d'ajouter les fonctions avancées.";
+    }
+
+    if (q.includes("apprendre") || q.includes("cours") || q.includes("débutant") || q.includes("debutant")) {
+      return "Voici un parcours pour débuter en développement web :\n\nSemaine 1 : HTML et structure des pages.\nSemaine 2 : CSS, couleurs, mises en page et responsive design.\nSemaine 3 : JavaScript, événements et boutons.\nSemaine 4 : réalisation d'un petit projet complet.\n\nConseil : pratique chaque jour, même 30 minutes, et teste souvent ton code.";
+    }
+
+    if (q.includes("merci")) {
+      return "Avec plaisir ! 😊 Continue à apprendre et à créer avec TeknoAI. Quelle est la prochaine étape de ton projet ?";
+    }
+
+    return "Merci pour ta question ! Je suis actuellement la version de démonstration de TeknoAI.\n\nJe peux présenter des exemples sur l'IA, le développement web, les idées de projets et l'apprentissage.\n\nPour répondre librement à des questions variées comme ChatGPT, nous devrons connecter TeknoAI à un véritable modèle d'intelligence artificielle via une API sécurisée.";
+  }
+
+  function sendMessage(text) {
+    const question = text.trim();
+    if (!question || sendBtn.disabled) return;
+
+    welcome.classList.add("hidden");
+    cards.classList.add("hidden");
+    addMessage(question, "user");
+    promptInput.value = "";
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Réponse…";
+
+    // Démonstration locale : aucune API n'est appelée.
+    window.setTimeout(() => {
+      addMessage(answerFor(question), "assistant");
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Envoyer ↑";
+      promptInput.focus();
+    }, 350);
+  }
+
+  function selectMode(mode) {
+    currentMode = mode;
+    pageTitle.textContent = titles[mode] || titles.home;
+
+    document.querySelectorAll(".nav-btn").forEach((button) => {
+      button.classList.toggle("active", button.dataset.mode === mode);
+    });
+
+    const prompts = {
+      explain: "Explique-moi l'intelligence artificielle avec des exemples simples.",
+      create: "Aide-moi à créer un site web professionnel étape par étape.",
+      ideas: "Donne-moi cinq idées de projets informatiques pour débuter.",
+      learn: "Prépare-moi un parcours pour apprendre le développement web."
+    };
+
+    if (mode === "home") {
+      resetChat();
+      return;
+    }
+
+    sendMessage(prompts[mode]);
+  }
+
+  function resetChat() {
+    chat.replaceChildren();
+    welcome.classList.remove("hidden");
+    cards.classList.remove("hidden");
+    currentMode = "home";
+    pageTitle.textContent = titles.home;
+    document.querySelectorAll(".nav-btn").forEach((button) => {
+      button.classList.toggle("active", button.dataset.mode === "home");
+    });
+    promptInput.value = "";
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Envoyer ↑";
+    promptInput.focus();
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle("light");
+    const isLight = document.body.classList.contains("light");
+    $("#themeBtn").textContent = isLight ? "🌙 Mode sombre" : "☀️ Mode clair";
+  }
+
+  $("#chatForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    sendMessage(promptInput.value);
+  });
+
+  $("#newChat").addEventListener("click", resetChat);
+  $("#clearBtn").addEventListener("click", resetChat);
+  $("#themeBtn").addEventListener("click", toggleTheme);
+  $("#mobileTheme").addEventListener("click", toggleTheme);
+
+  document.querySelectorAll(".nav-btn").forEach((button) => {
+    button.addEventListener("click", () => selectMode(button.dataset.mode));
+  });
+
+  document.querySelectorAll(".card").forEach((button) => {
+    button.addEventListener("click", () => sendMessage(button.dataset.prompt));
+  });
+
+  promptInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      $("#chatForm").requestSubmit();
+    }
+  });
+})();
+</script>
 </body>
 </html>
