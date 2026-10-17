@@ -4,358 +4,572 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101019">
-  <meta name="description" content="TeknoAI - Apprendre, créer et programmer avec l'intelligence artificielle.">
-  <title>TeknoAI</title>
+  <meta name="theme-color" content="#212121">
+  <meta name="description" content="TeknoAI : apprendre, créer et programmer avec l'intelligence artificielle.">
+  <title>TeknoAI — Apprendre et créer</title>
 
   <style>
     :root {
-      --bg: #101019;
-      --panel: #191925;
-      --panel2: #222232;
-      --text: #f5f5fa;
-      --muted: #a4a4b8;
+      color-scheme: dark;
+      --bg: #212121;
+      --sidebar: #181818;
+      --panel: #2f2f2f;
+      --panel-hover: #383838;
+      --text: #f5f5f5;
+      --muted: #a1a1a1;
+      --border: #404040;
       --accent: #a855f7;
-      --accent2: #ec4899;
-      --border: #303044;
-      --user: #392454;
+      --user: #393044;
     }
 
     body.light {
-      --bg: #f5f5fa;
-      --panel: #ffffff;
-      --panel2: #eeeef6;
-      --text: #202033;
-      --muted: #65657c;
-      --border: #dedeea;
-      --user: #eadbff;
+      color-scheme: light;
+      --bg: #ffffff;
+      --sidebar: #f7f7f8;
+      --panel: #f4f4f4;
+      --panel-hover: #e9e9e9;
+      --text: #202020;
+      --muted: #707070;
+      --border: #dedede;
+      --user: #eee5fa;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
       min-height: 100vh;
-      transition: background .2s, color .2s;
     }
 
-    button, textarea { font: inherit; }
-    button { cursor: pointer; }
+    button, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
 
     .app {
+      min-height: 100vh;
       display: grid;
       grid-template-columns: 245px minmax(0, 1fr);
-      min-height: 100vh;
     }
 
+    /* BARRE LATERALE */
+
     aside {
-      background: var(--panel);
+      background: var(--sidebar);
       border-right: 1px solid var(--border);
-      padding: 22px 16px;
+      padding: 18px 12px;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 24px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 23px;
+      padding: 6px;
+      font-size: 21px;
       font-weight: 800;
-      letter-spacing: -.7px;
-      padding: 4px 8px;
+      letter-spacing: -0.7px;
     }
 
     .logo {
+      width: 36px;
+      height: 36px;
       display: grid;
       place-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 13px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
       color: white;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      font-size: 24px;
+      font-size: 21px;
     }
 
-    .brand span:last-child {
+    .brand-name {
       background: linear-gradient(90deg, #c084fc, #f472b6);
-      color: transparent;
       background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
-    .new-chat, .nav-btn, .theme-btn, .clear-btn {
+    .new-chat,
+    .nav-btn,
+    .side-btn {
       width: 100%;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: var(--panel2);
-      padding: 12px;
-      border-radius: 11px;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px;
       text-align: left;
+      background: transparent;
+      color: var(--text);
+      transition: background .2s;
     }
 
     .new-chat {
-      background: linear-gradient(110deg, #9333ea, #c026d3);
-      border: 0;
-      color: white;
-      font-weight: 700;
+      margin-top: 10px;
+      border: 1px solid var(--border);
       text-align: center;
+      font-size: 13px;
+    }
+
+    .new-chat:hover,
+    .nav-btn:hover,
+    .side-btn:hover {
+      background: var(--panel-hover);
     }
 
     .section-label {
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1.3px;
       font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       margin: 0 8px 10px;
     }
 
-    .nav-list { display: grid; gap: 8px; }
+    .nav-list {
+      display: grid;
+      gap: 5px;
+    }
 
     .nav-btn {
       display: flex;
       align-items: center;
-      gap: 11px;
-      transition: .2s;
+      gap: 10px;
+      font-size: 13px;
     }
 
-    .nav-btn:hover, .nav-btn.active {
-      border-color: var(--accent);
-      background: var(--user);
-    }
-
-    .nav-icon { width: 23px; text-align: center; }
-
-    .sidebar-bottom { margin-top: auto; display: grid; gap: 9px; }
-
-    .small-note {
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--muted);
-      padding: 4px 8px;
-    }
-
-    main { min-width: 0; display: flex; flex-direction: column; }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 17px 26px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-
-    header strong { font-size: 14px; }
-    header span { color: var(--muted); font-size: 12px; }
-
-    .header-actions { display: flex; align-items: center; gap: 8px; }
-
-    .icon-btn {
+    .nav-btn.active {
       background: var(--panel);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 10px;
-      width: 39px;
-      height: 39px;
+    }
+
+    .nav-icon {
+      width: 22px;
+      text-align: center;
       font-size: 17px;
     }
 
-    .content {
+    .sidebar-bottom {
+      margin-top: auto;
+      display: grid;
+      gap: 5px;
+    }
+
+    .side-btn {
+      font-size: 12px;
+    }
+
+    .side-note {
+      padding: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ZONE PRINCIPALE */
+
+    main {
+      min-width: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      min-height: 62px;
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .icon-btn {
+      width: 35px;
+      height: 35px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 50%;
+    }
+
+    .workspace {
       width: 100%;
-      max-width: 920px;
-      padding: 42px 24px 25px;
+      max-width: 850px;
       margin: 0 auto;
+      padding: 30px 24px 25px;
       flex: 1;
     }
 
-    .welcome { text-align: center; margin: 28px 0 35px; }
+    /* ACCUEIL */
 
-    .eyebrow {
-      color: #d8b4fe;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+    .welcome {
+      text-align: center;
+      padding: 35px 0 24px;
+    }
+
+    .welcome-logo {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      font-size: 29px;
+      color: white;
+      box-shadow: 0 8px 30px #a855f726;
     }
 
     h1 {
-      font-size: clamp(30px, 5vw, 49px);
-      line-height: 1.15;
-      letter-spacing: -1.8px;
-      margin: 15px 0;
+      font-size: clamp(27px, 4vw, 39px);
+      line-height: 1.2;
+      letter-spacing: -1.2px;
+      margin: 0 0 13px;
     }
 
     .gradient {
       background: linear-gradient(90deg, #c084fc, #f472b6);
       background-clip: text;
+      -webkit-background-clip: text;
       color: transparent;
     }
 
     .welcome p {
       color: var(--muted);
+      font-size: 14px;
       line-height: 1.7;
-      max-width: 530px;
+      max-width: 470px;
       margin: 0 auto;
-      font-size: 15px;
     }
 
     .cards {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 32px;
+      gap: 12px;
+      margin: 20px 0 30px;
     }
 
     .card {
-      background: var(--panel);
+      padding: 17px;
       border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
       color: var(--text);
-      padding: 20px;
-      border-radius: 16px;
       text-align: left;
-      transition: transform .2s, border-color .2s;
+      transition: border-color .2s, transform .2s;
     }
 
-    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
 
-    .card .emoji { font-size: 27px; }
-    .card h3 { margin: 14px 0 7px; font-size: 16px; }
-    .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .card-icon {
+      font-size: 23px;
+    }
+
+    .card h3 {
+      margin: 12px 0 6px;
+      font-size: 14px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* MESSAGES */
 
     .chat {
       display: grid;
-      gap: 18px;
-      margin-bottom: 25px;
+      gap: 22px;
+      padding: 12px 0 30px;
     }
 
     .message {
-      max-width: 88%;
-      padding: 15px 17px;
-      border-radius: 15px;
-      line-height: 1.75;
+      max-width: 90%;
+      min-width: 0;
       font-size: 14px;
+      line-height: 1.8;
       overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
     .message.user {
       justify-self: end;
+      padding: 12px 16px;
+      border-radius: 20px;
       background: var(--user);
-      border: 1px solid var(--border);
-      white-space: pre-wrap;
     }
 
     .message.assistant {
       justify-self: start;
-      background: var(--panel);
-      border: 1px solid var(--border);
+      width: 100%;
+      padding: 4px 0;
     }
 
-    .message strong { color: #c084fc; }
-    .message pre {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 9px;
-      overflow-x: auto;
+    .message-label {
+      display: block;
+      margin-bottom: 7px;
+      color: #c084fc;
+      font-size: 12px;
+      font-weight: 700;
     }
+
+    .message-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .message-actions button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 5px 9px;
+    }
+
+    .message-actions button:hover {
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    .typing {
+      color: var(--muted);
+      font-size: 13px;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: .45; }
+      to { opacity: 1; }
+    }
+
+    /* ZONE DE SAISIE */
 
     .composer {
       position: sticky;
       bottom: 0;
-      padding: 15px 24px 20px;
+      padding: 12px 20px 15px;
       background: var(--bg);
-      border-top: 1px solid var(--border);
     }
 
     .composer-inner {
-      max-width: 850px;
+      max-width: 760px;
       margin: 0 auto;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px;
       display: flex;
       align-items: flex-end;
       gap: 10px;
+      padding: 8px 10px 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      background: var(--panel);
+      box-shadow: 0 4px 20px #0000000a;
     }
 
     textarea {
       flex: 1;
       min-width: 0;
-      resize: vertical;
-      min-height: 44px;
-      max-height: 180px;
-      padding: 12px 8px;
+      resize: none;
+      min-height: 36px;
+      max-height: 160px;
+      padding: 9px 0;
       border: 0;
       outline: 0;
       background: transparent;
       color: var(--text);
+      font-size: 14px;
       line-height: 1.5;
     }
 
-    textarea::placeholder { color: var(--muted); }
+    textarea::placeholder {
+      color: var(--muted);
+    }
 
     .send {
       flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: 0;
-      border-radius: 11px;
-      padding: 12px 17px;
-      color: white;
-      font-weight: 700;
-      background: linear-gradient(120deg, #9333ea, #db2777);
+      border-radius: 50%;
+      background: var(--text);
+      color: var(--bg);
+      transition: transform .2s, opacity .2s;
     }
 
-    .send:disabled { opacity: .45; cursor: not-allowed; }
+    .send::after {
+      content: "↑";
+      font-size: 23px;
+      font-weight: 700;
+    }
+
+    .send:hover {
+      transform: scale(1.06);
+    }
+
+    .send:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .send.loading::after {
+      content: "…";
+      font-size: 21px;
+    }
 
     .disclaimer {
       text-align: center;
-      font-size: 11px;
+      max-width: 680px;
+      margin: 9px auto 0;
       color: var(--muted);
-      margin: 10px auto 0;
+      font-size: 10px;
       line-height: 1.5;
-      max-width: 650px;
     }
 
-    .hidden { display: none !important; }
+    .hidden {
+      display: none !important;
+    }
 
     @media (max-width: 700px) {
-      .app { grid-template-columns: 1fr; }
+      .app {
+        grid-template-columns: 1fr;
+      }
+
       aside {
-        padding: 12px;
+        padding: 10px;
+        gap: 10px;
         border-right: 0;
         border-bottom: 1px solid var(--border);
-        gap: 12px;
       }
-      .brand { font-size: 20px; }
-      .new-chat { width: auto; }
-      .sidebar-top { display: flex; align-items: center; justify-content: space-between; }
-      .section-label, .sidebar-bottom { display: none; }
-      .nav-list { display: flex; overflow-x: auto; gap: 7px; }
-      .nav-btn { width: auto; white-space: nowrap; padding: 10px; font-size: 12px; }
-      .nav-icon { width: auto; }
-      header { padding: 12px 16px; }
-      .content { padding: 24px 16px; }
-      .welcome { margin: 24px 0; }
-      .cards { gap: 10px; }
-      .card { padding: 15px; }
-      .card h3 { font-size: 14px; }
-      .card p { font-size: 12px; }
-      .composer { padding: 10px 12px 14px; }
-      .message { max-width: 96%; }
-      .send { padding: 12px; }
+
+      .sidebar-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .brand {
+        font-size: 19px;
+      }
+
+      .logo {
+        width: 32px;
+        height: 32px;
+      }
+
+      .new-chat {
+        width: auto;
+        margin: 0;
+        padding: 9px 12px;
+        font-size: 12px;
+      }
+
+      .section-label,
+      .sidebar-bottom {
+        display: none;
+      }
+
+      .nav-list {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .nav-btn {
+        width: auto;
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding: 9px;
+        font-size: 11px;
+      }
+
+      header {
+        min-height: 52px;
+        padding: 9px 14px;
+      }
+
+      .workspace {
+        padding: 15px 15px 20px;
+      }
+
+      .welcome {
+        padding: 28px 0 15px;
+      }
+
+      .cards {
+        gap: 9px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .card h3 {
+        font-size: 13px;
+      }
+
+      .card p {
+        font-size: 11px;
+      }
+
+      .message {
+        max-width: 96%;
+        font-size: 13px;
+      }
+
+      .composer {
+        padding: 9px 10px 12px;
+      }
+
+      .composer-inner {
+        padding: 7px 8px 7px 13px;
+      }
+
+      .send {
+        width: 34px;
+        height: 34px;
+      }
     }
 
     @media (max-width: 370px) {
-      .cards { grid-template-columns: 1fr; }
+      .cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -367,68 +581,88 @@
     <div class="sidebar-top">
       <div class="brand">
         <div class="logo">T</div>
-        <span>TeknoAI</span>
+        <span class="brand-name">TeknoAI</span>
       </div>
       <button class="new-chat" id="newChat">＋ Nouveau chat</button>
     </div>
 
     <div>
       <p class="section-label">Explorer</p>
+
       <nav class="nav-list" aria-label="Navigation principale">
-        <button class="nav-btn active" data-mode="home"><span class="nav-icon">⌂</span> Accueil</button>
-        <button class="nav-btn" data-mode="explain"><span class="nav-icon">✦</span> Expliquer l'IA</button>
-        <button class="nav-btn" data-mode="create"><span class="nav-icon">⌘</span> Créer un système</button>
-        <button class="nav-btn" data-mode="ideas"><span class="nav-icon">💡</span> Idées de projets</button>
-        <button class="nav-btn" data-mode="learn"><span class="nav-icon">📚</span> Apprendre</button>
+        <button class="nav-btn active" data-mode="home">
+          <span class="nav-icon">⌂</span> Accueil
+        </button>
+        <button class="nav-btn" data-mode="explain">
+          <span class="nav-icon">✦</span> Expliquer l'IA
+        </button>
+        <button class="nav-btn" data-mode="create">
+          <span class="nav-icon">⌘</span> Créer un système
+        </button>
+        <button class="nav-btn" data-mode="ideas">
+          <span class="nav-icon">💡</span> Idées de projets
+        </button>
+        <button class="nav-btn" data-mode="learn">
+          <span class="nav-icon">📚</span> Apprendre
+        </button>
       </nav>
     </div>
 
     <div class="sidebar-bottom">
-      <button class="theme-btn" id="themeBtn">☀️ Changer le thème</button>
-      <button class="clear-btn" id="clearBtn">Effacer la conversation</button>
-      <div class="small-note">TeknoAI V1 · Ton espace pour apprendre et créer.</div>
+      <button class="side-btn" id="themeBtn">☀️ Changer le thème</button>
+      <button class="side-btn" id="clearBtn">Effacer la conversation</button>
+      <div class="side-note">TeknoAI V2 · Apprendre, créer et programmer.</div>
     </div>
   </aside>
 
   <main>
     <header>
       <div>
-        <strong id="pageTitle">Assistant TeknoAI</strong><br>
-        <span>Apprendre · Créer · Programmer</span>
+        <div class="page-title" id="pageTitle">Assistant TeknoAI</div>
+        <div class="status">Apprendre · Créer · Programmer</div>
       </div>
-      <div class="header-actions">
-        <button class="icon-btn" id="mobileTheme" aria-label="Changer le thème">◐</button>
-      </div>
+
+      <button class="icon-btn" id="mobileTheme"
+        aria-label="Changer le thème" title="Changer le thème">◐</button>
     </header>
 
-    <section class="content">
+    <section class="workspace">
       <div class="welcome" id="welcome">
-        
+        <div class="welcome-logo">✦</div>
+        <h1>Bonjour, bienvenue sur <span class="gradient">TeknoAI</span></h1>
+        <p>
+          Ton espace pour découvrir l'intelligence artificielle,
+          apprendre à programmer et transformer tes idées en projets.
+        </p>
       </div>
 
       <div class="cards" id="cards">
-        <button class="card" data-prompt="Explique-moi l'intelligence artificielle avec des exemples simples.">
-          <span class="emoji">🧠</span>
-          <h3>Expliquer-moi l'IA</h3>
-          <p>Comprends l'IA avec des explications simples et des exemples.</p>
+        <button class="card"
+          data-prompt="Explique-moi l'intelligence artificielle avec des exemples simples.">
+          <span class="card-icon">🧠</span>
+          <h3>Comprendre l'IA</h3>
+          <p>Découvre comment fonctionne l'intelligence artificielle.</p>
         </button>
 
-        <button class="card" data-prompt="Aide-moi à créer un site web professionnel. Donne-moi les étapes et le code de départ.">
-          <span class="emoji">💻</span>
+        <button class="card"
+          data-prompt="Aide-moi à créer un site web professionnel étape par étape.">
+          <span class="card-icon">💻</span>
           <h3>Créer un système</h3>
-          <p>Prépare un site web, une application ou un outil numérique.</p>
+          <p>Prépare un site web ou une application.</p>
         </button>
 
-        <button class="card" data-prompt="Donne-moi cinq idées de projets informatiques utiles que je peux réaliser en débutant.">
-          <span class="emoji">🚀</span>
+        <button class="card"
+          data-prompt="Donne-moi cinq idées de projets informatiques utiles pour débuter.">
+          <span class="card-icon">🚀</span>
           <h3>Idées de projets</h3>
-          <p>Transforme tes idées en projets concrets.</p>
+          <p>Découvre des idées que tu peux réaliser.</p>
         </button>
 
-        <button class="card" data-prompt="Prépare-moi un parcours pour apprendre HTML, CSS et JavaScript en partant de zéro.">
-          <span class="emoji">🎓</span>
+        <button class="card"
+          data-prompt="Prépare-moi un parcours pour apprendre HTML, CSS et JavaScript depuis zéro.">
+          <span class="card-icon">🎓</span>
           <h3>Apprendre</h3>
-          <p>Progresse en programmation et en nouvelles technologies.</p>
+          <p>Progresse en programmation à ton rythme.</p>
         </button>
       </div>
 
@@ -438,11 +672,17 @@
     <section class="composer">
       <form class="composer-inner" id="chatForm">
         <textarea id="prompt" rows="1" maxlength="4000"
-          placeholder="Pose ta question à TeknoAI..."
-          aria-label="Ta question"></textarea>
-        <button class="send" id="sendBtn" type="submit">Envoyer ↑</button>
+          placeholder="Écris ton message à TeknoAI..."
+          aria-label="Ton message"></textarea>
+
+        <button class="send" id="sendBtn" type="submit"
+          aria-label="Envoyer le message" title="Envoyer"></button>
       </form>
-      <p class="disclaimer">Version de démonstration : les réponses sont préprogrammées. Une connexion à un modèle d'IA sera nécessaire pour obtenir de véritables réponses génératives.</p>
+
+      <p class="disclaimer">
+        TeknoAI est actuellement une démonstration locale.
+        Les réponses ne proviennent pas encore d'un véritable modèle d'IA.
+      </p>
     </section>
   </main>
 </div>
@@ -452,6 +692,7 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
+
   const chat = $("#chat");
   const promptInput = $("#prompt");
   const welcome = $("#welcome");
@@ -459,88 +700,167 @@
   const pageTitle = $("#pageTitle");
   const sendBtn = $("#sendBtn");
 
-  let currentMode = "home";
+  let busy = false;
+  let timer = null;
 
   const titles = {
     home: "Assistant TeknoAI",
     explain: "Comprendre l'intelligence artificielle",
     create: "Créer un système",
-    ideas: "Découvrir des projets",
+    ideas: "Idées de projets",
     learn: "Apprendre les technologies"
   };
+
+  function showChat() {
+    welcome.classList.add("hidden");
+    cards.classList.add("hidden");
+  }
+
+  function scrollToBottom() {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth"
+    });
+  }
 
   function addMessage(text, role) {
     const message = document.createElement("div");
     message.className = "message " + role;
-    // textContent empêche l'interprétation du texte saisi comme du HTML.
-    message.textContent = text;
+
+    if (role === "assistant") {
+      const label = document.createElement("span");
+      label.className = "message-label";
+      label.textContent = "✦ TeknoAI";
+      message.appendChild(label);
+    }
+
+    const content = document.createElement("div");
+    content.textContent = text;
+    message.appendChild(content);
+
+    if (role === "assistant") {
+      const actions = document.createElement("div");
+      actions.className = "message-actions";
+
+      const copyButton = document.createElement("button");
+      copyButton.type = "button";
+      copyButton.textContent = "Copier la réponse";
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          copyButton.textContent = "Copié !";
+        } catch {
+          copyButton.textContent = "Copie indisponible";
+        }
+      });
+
+      actions.appendChild(copyButton);
+      message.appendChild(actions);
+    }
+
     chat.appendChild(message);
-    message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    scrollToBottom();
   }
 
   function answerFor(question) {
     const q = question.toLowerCase();
 
-    if (q.includes("bonjour") || q.includes("salut") || q.includes("hello")) {
-      return "Bonjour et bienvenue sur TeknoAI ! 👋 Je peux t'aider à apprendre, programmer et préparer des projets. Que souhaites-tu réaliser aujourd'hui ?";
+    if (/\b(bonjour|salut|hello|bonsoir|coucou)\b/.test(q)) {
+      return "Bonjour et bienvenue sur TeknoAI ! 👋\n\nJe peux t'aider à apprendre, programmer, créer des sites web et préparer des projets. Que souhaites-tu réaliser aujourd'hui ?";
     }
 
-    if (q.includes("intelligence artificielle") || q.includes("explique") || q.includes("c'est quoi l'ia") || q.includes("c est quoi l ia")) {
-      return "L'intelligence artificielle (IA) est un ensemble de technologies capables d'effectuer des tâches comme analyser des informations, reconnaître des images ou générer du texte.\n\nExemple : un assistant IA peut expliquer un cours, aider à écrire du code ou proposer des idées.\n\nÀ retenir : une IA peut aussi se tromper. Il faut vérifier les informations importantes.";
+    if (q.includes("qui es-tu") || q.includes("qui es tu") ||
+        q.includes("ton nom")) {
+      return "Je suis TeknoAI, un assistant de démonstration conçu pour t'aider à apprendre les technologies, découvrir l'IA et préparer tes projets numériques.\n\nPour le moment, mes réponses sont programmées à l'avance. Je ne suis pas encore connecté à un véritable modèle d'intelligence artificielle.";
     }
 
-    if (q.includes("site web") || q.includes("html") || q.includes("css") || q.includes("javascript") || q.includes("programmer") || q.includes("code")) {
-      return "Pour créer un site web, commence par ces trois technologies :\n\n1. HTML : structure les pages.\n2. CSS : crée le design et adapte le site aux téléphones.\n3. JavaScript : rend les boutons et les interactions fonctionnels.\n\nPremier exercice : crée un fichier index.html, ajoute un titre et un bouton, puis ouvre le fichier dans ton navigateur.\n\nJe peux t'aider à construire le projet étape par étape. Cette réponse est un guide de démonstration, pas une génération de code par un modèle d'IA.";
+    if (q.includes("intelligence artificielle") ||
+        q.includes("c'est quoi l'ia") ||
+        q.includes("c est quoi l ia") ||
+        q.includes("explique l'ia") ||
+        q.includes("explique-moi l'ia")) {
+      return "🧠 QU'EST-CE QUE L'INTELLIGENCE ARTIFICIELLE ?\n\nL'intelligence artificielle (IA) regroupe des technologies capables d'effectuer certaines tâches comme analyser des informations, reconnaître des images ou générer du texte.\n\nExemples :\n• Un assistant qui répond aux questions.\n• Un système qui reconnaît des objets sur une photo.\n• Un outil qui aide à écrire du code.\n\nÀ retenir : une IA peut se tromper. Les informations importantes doivent être vérifiées.";
     }
 
-    if (q.includes("projet") || q.includes("idée") || q.includes("idee")) {
-      return "Voici cinq idées de projets informatiques :\n\n1. Un site de portfolio professionnel.\n2. Une application de gestion d'académie de football.\n3. Une boutique en ligne.\n4. Un réseau social avec profils et publications.\n5. Un assistant IA connecté à une API.\n\nPour commencer, choisis un projet, définis ses fonctions principales, puis développe une première version simple avant d'ajouter les fonctions avancées.";
+    if (q.includes("site web") || q.includes("html") ||
+        q.includes("css") || q.includes("javascript") ||
+        q.includes("programmer") || q.includes("code")) {
+      return "💻 COMMENÇONS TON PROJET\n\nLes trois technologies de base du web sont :\n\n1. HTML : structure les pages.\n2. CSS : définit le design, les couleurs et la mise en page.\n3. JavaScript : rend les boutons et les interactions fonctionnels.\n\nPour commencer :\n• Crée un fichier nommé index.html.\n• Ajoute ta structure HTML.\n• Ajoute le style CSS.\n• Programme les interactions avec JavaScript.\n• Teste le résultat dans ton navigateur.\n\nDis-moi quel site ou quelle application tu veux créer pour que nous puissions préparer la suite.";
     }
 
-    if (q.includes("apprendre") || q.includes("cours") || q.includes("débutant") || q.includes("debutant")) {
-      return "Voici un parcours pour débuter en développement web :\n\nSemaine 1 : HTML et structure des pages.\nSemaine 2 : CSS, couleurs, mises en page et responsive design.\nSemaine 3 : JavaScript, événements et boutons.\nSemaine 4 : réalisation d'un petit projet complet.\n\nConseil : pratique chaque jour, même 30 minutes, et teste souvent ton code.";
+    if (q.includes("projet") || q.includes("idée") ||
+        q.includes("idee")) {
+      return "🚀 CINQ IDÉES DE PROJETS\n\n1. Un portfolio professionnel.\n2. Une application de gestion d'académie de football.\n3. Une boutique en ligne.\n4. Un réseau social avec profils et publications.\n5. Un assistant IA connecté à une API.\n\nConseil : commence par les fonctions essentielles, teste-les, puis ajoute les fonctionnalités avancées progressivement.\n\nLaquelle veux-tu développer ?";
+    }
+
+    if (q.includes("apprendre") || q.includes("cours") ||
+        q.includes("débutant") || q.includes("debutant")) {
+      return "📚 TON PARCOURS POUR APPRENDRE LE WEB\n\nSemaine 1 : HTML et structure des pages.\n\nSemaine 2 : CSS, couleurs et design responsive.\n\nSemaine 3 : JavaScript, événements et boutons.\n\nSemaine 4 : création d'un petit projet complet.\n\nChaque jour, pratique pendant 30 minutes si possible. Le plus important est de tester ton code et de comprendre les erreurs.\n\nNous pouvons commencer par la première leçon.";
     }
 
     if (q.includes("merci")) {
-      return "Avec plaisir ! 😊 Continue à apprendre et à créer avec TeknoAI. Quelle est la prochaine étape de ton projet ?";
+      return "Avec plaisir ! 😊 Continue à apprendre et à créer avec TeknoAI. Quel est ton prochain objectif ?";
     }
 
-    return "Merci pour ta question ! Je suis actuellement la version de démonstration de TeknoAI.\n\nJe peux présenter des exemples sur l'IA, le développement web, les idées de projets et l'apprentissage.\n\nPour répondre librement à des questions variées comme ChatGPT, nous devrons connecter TeknoAI à un véritable modèle d'intelligence artificielle via une API sécurisée.";
+    if (q.includes("football") || q.includes("académie") ||
+        q.includes("academie")) {
+      return "⚽ PROJET D'APPLICATION DE FOOTBALL\n\nNous pouvons préparer une application comprenant :\n\n• Gestion des joueurs et des entraîneurs.\n• Présences aux entraînements.\n• Calendrier des matchs.\n• Buts, passes décisives et statistiques.\n• Actualités et galerie photos.\n• Comptes et rôles des utilisateurs.\n\nPour un vrai système partagé entre plusieurs utilisateurs, il faudra ajouter un serveur et une base de données.";
+    }
+
+    return "Merci pour ta question !\n\nJe suis actuellement la version locale de TeknoAI. Mes réponses sont limitées à quelques sujets programmés : l'intelligence artificielle, le développement web, les projets informatiques et l'apprentissage.\n\nPour répondre librement à des questions variées comme ChatGPT, TeknoAI devra être connecté à un véritable modèle d'IA via un serveur sécurisé.\n\nTu peux me poser une question sur l'un de ces sujets ou choisir une fonction dans le menu.";
+  }
+
+  function setBusy(value) {
+    busy = value;
+    sendBtn.disabled = value;
+    sendBtn.classList.toggle("loading", value);
+    sendBtn.setAttribute(
+      "aria-label",
+      value ? "Réponse en cours" : "Envoyer le message"
+    );
   }
 
   function sendMessage(text) {
     const question = text.trim();
-    if (!question || sendBtn.disabled) return;
 
-    welcome.classList.add("hidden");
-    cards.classList.add("hidden");
+    if (!question || busy) return;
+
+    showChat();
     addMessage(question, "user");
-    promptInput.value = "";
-    sendBtn.disabled = true;
-    sendBtn.textContent = "Réponse…";
 
-    // Démonstration locale : aucune API n'est appelée.
-    window.setTimeout(() => {
+    promptInput.value = "";
+    promptInput.style.height = "auto";
+
+    setBusy(true);
+
+    const typing = document.createElement("div");
+    typing.className = "typing";
+    typing.textContent = "TeknoAI réfléchit…";
+    chat.appendChild(typing);
+    scrollToBottom();
+
+    timer = window.setTimeout(() => {
+      typing.remove();
       addMessage(answerFor(question), "assistant");
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Envoyer ↑";
+      setBusy(false);
+      timer = null;
       promptInput.focus();
-    }, 350);
+    }, 450);
   }
 
   function selectMode(mode) {
-    currentMode = mode;
-    pageTitle.textContent = titles[mode] || titles.home;
-
     document.querySelectorAll(".nav-btn").forEach((button) => {
       button.classList.toggle("active", button.dataset.mode === mode);
     });
 
+    pageTitle.textContent = titles[mode] || titles.home;
+
     const prompts = {
       explain: "Explique-moi l'intelligence artificielle avec des exemples simples.",
       create: "Aide-moi à créer un site web professionnel étape par étape.",
-      ideas: "Donne-moi cinq idées de projets informatiques pour débuter.",
-      learn: "Prépare-moi un parcours pour apprendre le développement web."
+      ideas: "Donne-moi cinq idées de projets informatiques utiles pour débuter.",
+      learn: "Prépare-moi un parcours pour apprendre HTML, CSS et JavaScript depuis zéro."
     };
 
     if (mode === "home") {
@@ -548,28 +868,36 @@
       return;
     }
 
-    sendMessage(prompts[mode]);
+    sendMessage(prompts[mode] || "");
   }
 
   function resetChat() {
+    if (timer !== null) {
+      window.clearTimeout(timer);
+      timer = null;
+    }
+
+    setBusy(false);
     chat.replaceChildren();
     welcome.classList.remove("hidden");
     cards.classList.remove("hidden");
-    currentMode = "home";
+    promptInput.value = "";
+    promptInput.style.height = "auto";
     pageTitle.textContent = titles.home;
+
     document.querySelectorAll(".nav-btn").forEach((button) => {
       button.classList.toggle("active", button.dataset.mode === "home");
     });
-    promptInput.value = "";
-    sendBtn.disabled = false;
-    sendBtn.textContent = "Envoyer ↑";
-    promptInput.focus();
   }
 
   function toggleTheme() {
     document.body.classList.toggle("light");
+
     const isLight = document.body.classList.contains("light");
-    $("#themeBtn").textContent = isLight ? "🌙 Mode sombre" : "☀️ Mode clair";
+    const label = isLight ? "🌙 Mode sombre" : "☀️ Mode clair";
+
+    $("#themeBtn").textContent = label;
+    $("#mobileTheme").setAttribute("aria-label", label);
   }
 
   $("#chatForm").addEventListener("submit", (event) => {
@@ -583,11 +911,21 @@
   $("#mobileTheme").addEventListener("click", toggleTheme);
 
   document.querySelectorAll(".nav-btn").forEach((button) => {
-    button.addEventListener("click", () => selectMode(button.dataset.mode));
+    button.addEventListener("click", () => {
+      selectMode(button.dataset.mode);
+    });
   });
 
   document.querySelectorAll(".card").forEach((button) => {
-    button.addEventListener("click", () => sendMessage(button.dataset.prompt));
+    button.addEventListener("click", () => {
+      sendMessage(button.dataset.prompt);
+    });
+  });
+
+  promptInput.addEventListener("input", () => {
+    promptInput.style.height = "auto";
+    promptInput.style.height =
+      Math.min(promptInput.scrollHeight, 160) + "px";
   });
 
   promptInput.addEventListener("keydown", (event) => {
