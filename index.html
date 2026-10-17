@@ -571,6 +571,122 @@
         grid-template-columns: 1fr;
       }
     }
+/* CORRECTION MOBILE : iPhone et Android */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.app,
+main,
+.workspace {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+aside {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebar-top {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.brand {
+  min-width: 0;
+}
+
+.brand-name {
+  white-space: nowrap;
+}
+
+.new-chat {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.nav-list {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-list::-webkit-scrollbar {
+  display: none;
+}
+
+header {
+  min-width: 0;
+}
+
+.workspace {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.message,
+.message.assistant,
+.message.user {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.composer {
+  width: 100%;
+  min-width: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.composer-inner {
+  width: 100%;
+  min-width: 0;
+}
+
+textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+.disclaimer {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 400px) {
+  .brand {
+    font-size: 18px;
+    gap: 7px;
+  }
+
+  .new-chat {
+    font-size: 11px;
+    padding: 9px;
+  }
+
+  .nav-btn {
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  .workspace {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .message {
+    font-size: 13px;
+  }
+}
+
   </style>
 </head>
 
