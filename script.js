@@ -1,80 +1,57 @@
 
-import express from "express";
-import cors from "cors";
-import OpenAI from "openai";
-import rateLimit from "express-rate-limit";
+async function sendMessage(text) {
+  const question = text.trim();
 
-const app = express();
-const PORT = process.env.PORT || 10000;
+  if (!question || busy) return;
 
-const allowedOrigins = (process.env.SITE_URL || "")
-  .split(",")
-  .map(origin => origin.trim())
-  .filter(Boolean);
+  showChat();
+  addMessage(question, "user");
 
-app.use(cors({
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    callback(new Error("Origine non autorisée"));
-  }
-}));
+  promptInput.value = "";
+  promptInput.style.height = "auto";
 
-app.use(express.json({ limit: "20kb" }));
+  setBusy(true);
 
-app.use("/api/", rateLimit({
-  windowMs: 60 * 1000,
-  max: 20
-}));
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.textContent = "TeknoAI réfléchit…";
+  chat.appendChild(typing);
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+  scrollToBottom();
 
-app.get("/", (req, res) => {
-  res.send("TeknoAI API fonctionne !");
-});
-
-app.post("/api/chat", async (req, res) => {
   try {
-    const message = req.body.message;
+    const response = await fetch(
+      "https://TON-SERVEUR.onrender.com/api/chat",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: question
+        })
+      }
+    );
 
-    if (typeof message !== "string" || !message.trim()) {
-      return res.status(400).json({
-        error: "Écris une question."
-      });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erreur du serveur");
     }
 
-    if (message.length > 4000) {
-      return res.status(400).json({
-        error: "Message trop long."
-      });
-    }
-
-    const response = await openai.responses.create({
-      model: process.env.OPENAI_MODEL || "gpt-6-astra",
-      instructions:
-        "Tu es TeknoAI, un assistant intelligent francophone. " +
-        "Tu aides les utilisateurs à apprendre, créer, programmer, " +
-        "faire des recherches et développer leurs projets. " +
-        "Réponds clairement et pédagogiquement.",
-      input: message.trim()
-    });
-
-    res.json({
-      reply: response.output_text
-    });
+    typing.remove();
+    addMessage(data.reply, "assistant");
 
   } catch (error) {
-    console.error("Erreur TeknoAI :", error.message);
+    typing.remove();
+    addMessage(
+      "Désolé, la connexion à TeknoAI a échoué. Vérifie le serveur et réessaie.",
+      "assistant"
+    );
+    console.error(error);
 
-    res.status(500).json({
-      error: "TeknoAI rencontre un problème. Réessaie plus tard."
-    });
+  } finally {
+    setBusy(false);
+    promptInput.focus();
   }
-});
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`TeknoAI serveur démarré sur le port ${PORT}`);
-});
+}
