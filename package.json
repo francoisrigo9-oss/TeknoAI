@@ -1,6 +1,6 @@
 
 {
-  "name": "teknoai",
+  "name": "teknoai-backend",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -8,9 +8,9 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^5.1.0",
     "cors": "^2.8.5",
-    "openai": "^5.8.2"
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "openai": "^6.0.0"
   }
 }
-
